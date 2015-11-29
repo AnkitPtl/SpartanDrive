@@ -44,7 +44,7 @@ import com.google.android.gms.plus.model.people.Person;
 /**
  * Minimal activity demonstrating basic Google Sign-In.
  */
-public class MainActivity extends AppCompatActivity implements
+public class  MainActivity extends AppCompatActivity implements
         View.OnClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.ConnectionCallbacks,

@@ -235,7 +235,7 @@ public class MainActivity1 extends Activity {
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.drive.Drive.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Drive API Android Quickstart")
+                    .setApplicationName("Team11SpartanDrive")
                     .build();
         }
 
