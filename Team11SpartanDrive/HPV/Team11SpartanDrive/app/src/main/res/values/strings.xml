@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Spartan Drive</string>
+
+    <string name="title_text">Spartan Drive</string>
+
+    <!-- Sign-in status messages -->
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_err">"Error: please check logs."</string>
+    <string name="error_null_person">
+        Error: Plus.PeopleApi.getCurrentPerson returned null. Ensure that the Google+ API is
+        enabled for your project, you have a properly configured google-services.json file
+        and that your device has an internet connection.
+    </string>
+
+    <!-- Google Play Services error for Toast -->
+    <string name="play_services_error_fmt">Google Play Services Error: %i</string>
+
+    <!-- Button labels -->
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+
+    <!-- Rationale for asking for Contacts -->
+    <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Fragment titles-->
+    <string name="SharedFragmentTitle">Hello from Shared Files Fragment</string>
+    <string name="MyFilesFragmentTitle">Hello from My Files Fragment</string>
+</resources>
