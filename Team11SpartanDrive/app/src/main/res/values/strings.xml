@@ -20,6 +20,7 @@
     <!-- Button labels -->
     <string name="sign_out">Sign Out</string>
     <string name="disconnect">Disconnect</string>
+    <string name="add_item">Add</string>
 
     <!-- Rationale for asking for Contacts -->
     <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>

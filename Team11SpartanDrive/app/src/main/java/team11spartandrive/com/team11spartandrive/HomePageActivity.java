@@ -65,6 +65,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
+    public static com.google.api.services.drive.Drive mService = null;
     // Tab titles
     private String[] tabs = {"My Files", "Shared"};
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -121,6 +122,9 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
+
+
+
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -293,7 +297,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
 
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.drive.Drive mService = null;
+
         private Exception mLastError = null;
 
         public MakeRequestTask(GoogleAccountCredential credential) {

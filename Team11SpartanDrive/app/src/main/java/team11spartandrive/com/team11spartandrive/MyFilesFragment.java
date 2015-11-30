@@ -1,11 +1,19 @@
 package team11spartandrive.com.team11spartandrive;
 
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 
 public class MyFilesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +47,44 @@ public class MyFilesFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        //Add Menu Options
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_myfiles, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.add_item:
+                final CharSequence options[] = new CharSequence[] {"Folder", "Upload"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("New");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("User clicked  on " + options[which]);
+                        File body = new File();
+                        body.setTitle("NewSpartan");
+                        body.setMimeType("application/vnd.google-apps.folder");
+                        try {
+                            File file = HomePageActivity.mService.files().insert(body).execute();
+                        }
+                        catch (Exception e){
+                            System.out.println("Error while creating a new folder!");
+                        }
+                    }
+                });
+                builder.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
