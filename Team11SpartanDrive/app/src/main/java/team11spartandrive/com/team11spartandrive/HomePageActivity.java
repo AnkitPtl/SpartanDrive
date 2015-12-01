@@ -72,7 +72,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     public static com.google.api.services.drive.Drive mService = null;
     // Tab titles
     private String[] tabs = {"My Files", "Shared"};
-    public static List<String> output_files;
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -80,8 +79,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         super.onCreate(savedInstanceState);
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_home_page);
-        output_files = new ArrayList<String>();
-        output_files.add("Loading files from Google Drive");
 
 //==============start
 
@@ -346,6 +343,8 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
             drive_files = mService.files();
 
+            DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
+
             try {
                 drive_files.delete("0BzEjnpCvKYvoRVF1LXRZMks2ODQ").execute();
                 Log.d("Sucessssss:","yeeeeeeeeey deleted");
@@ -353,13 +352,10 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             catch (Exception e){
                 Log.d("error in deletion",e.getMessage());
             }
-            //setting files
-            //DriveFiles.getDriveFileInstance().setDrive_files();
 
             FileList result = drive_files.list()
-                    //.setMaxResults(10)
+                    .setMaxResults(10)
                     .execute();
-
 
             List<File> files = result.getItems();
             if (files != null) {
@@ -387,9 +383,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                 output.add(0, "Data retrieved using the Drive API:");
                 Log.d("Data", TextUtils.join("\n", output));
 
-                output_files = output;
-
-                MyFilesFragment.getFragmentInstance().setFiles(output_files);
+                MyFilesFragment.getFragmentInstance().refresh();
 
                 Log.d("Error", TextUtils.join("\n", output));
             }

@@ -17,9 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import team11spartadrive.com.helper.DeleteFile;
+import team11spartadrive.com.helper.DriveFiles;
 import team11spartadrive.com.helper.SearchFile;
 
 public class MyFilesFragment extends Fragment {
@@ -56,13 +59,11 @@ public class MyFilesFragment extends Fragment {
     static MyFilesFragment myFilesFragment_instance = null;
     ListView lv;
     ArrayAdapter<String> adapter;
-    static List<String> names;
     android.support.v4.app.FragmentTransaction ft ;
 
 
     public static MyFilesFragment getFragmentInstance(){
-        names = HomePageActivity.output_files;
-//        Log.d("********************************", String.valueOf(names.size()));
+
         if(myFilesFragment_instance == null){
             myFilesFragment_instance = new MyFilesFragment();
             return myFilesFragment_instance;
@@ -121,10 +122,8 @@ public class MyFilesFragment extends Fragment {
 
     //=======================================
 
-    public void setFiles(List<String> files){
-        files.remove(0);
-        names = files;
-        Log.d("sucessssssss:", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    public void refresh(){
+        Log.d("Status", " >>> Going to refresh the fragment files content");
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
@@ -137,9 +136,24 @@ public class MyFilesFragment extends Fragment {
 
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, names);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, DriveFiles.getDriveFileInstance().getFileNameList());
 
         lv.setAdapter(adapter);
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                // TODO Auto-generated method stub
+
+                Log.v("long clicked", "pos: " + pos);
+                Toast toast = Toast.makeText(getActivity(),""+id,Toast.LENGTH_LONG);
+                toast.show();
+
+                return true;
+            }
+        });
+
         myFilter.addTextChangedListener(new TextWatcher() {
 
             @Override
