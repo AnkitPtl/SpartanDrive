@@ -343,6 +343,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         private List<String> getDataFromApi() throws IOException {
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
+
             drive_files = mService.files();
 
             try {
