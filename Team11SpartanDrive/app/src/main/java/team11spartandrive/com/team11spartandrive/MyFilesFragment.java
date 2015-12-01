@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.api.services.drive.Drive;
@@ -36,6 +39,7 @@ public class MyFilesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    EditText myFilter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -132,9 +136,30 @@ public class MyFilesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
 
         lv = (ListView) rootView.findViewById(R.id.listView);
+        myFilter=(EditText) rootView.findViewById(R.id.myFilter);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, names);
 
         lv.setAdapter(adapter);
+        myFilter.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                MyFilesFragment.this.adapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         return rootView;    }
 
