@@ -68,21 +68,18 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     public static com.google.api.services.drive.Drive mService = null;
     // Tab titles
     private String[] tabs = {"My Files", "Shared"};
+    public static List<String> output_files;
+
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_home_page);
+        output_files = new ArrayList<String>();
+        output_files.add("Loading files from Google Drive");
 
 //==============start
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
 
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -93,12 +90,10 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         mOutputText.setPadding(16, 16, 16, 16);
         mOutputText.setVerticalScrollBarEnabled(true);
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        activityLayout.addView(mOutputText);
+
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Drive API ...");
-
-        //setContentView(activityLayout);
 
         // Initialize credentials and service object.
         SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
@@ -122,9 +117,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
-
-
-
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -211,7 +203,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                         editor.apply();
                     }
                 } else if (resultCode == RESULT_CANCELED) {
-                    mOutputText.setText("Account unspecified.");
+                    Log.d("Error", "Account unspecified.");
                 }
                 break;
             case REQUEST_AUTHORIZATION:
@@ -236,7 +228,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             if (isDeviceOnline()) {
                 new MakeRequestTask(mCredential).execute();
             } else {
-                mOutputText.setText("No network connection available.");
+                Log.d("Error", "No network connection available.");
             }
         }
     }
@@ -341,7 +333,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
             FileList result = mService.files().list()
-                    //.setMaxResults(10)
+                    .setMaxResults(10)
                     .execute();
 
             List<File> files = result.getItems();
@@ -365,11 +357,16 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+                Log.d("Error", "No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Drive API:");
                 Log.d("Data", TextUtils.join("\n", output));
-                mOutputText.setText(TextUtils.join("\n", output));
+
+                output_files = output;
+
+                MyFilesFragment.getFragmentInstance().setFiles(output_files);
+
+                Log.d("Error", TextUtils.join("\n", output));
             }
         }
 
@@ -386,7 +383,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             MainActivity1.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
+                    Log.d("Error: ", "The following error occurred:\n"
                             + mLastError.getMessage());
                 }
             } else {

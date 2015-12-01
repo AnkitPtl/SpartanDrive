@@ -1,19 +1,28 @@
 package team11spartandrive.com.team11spartandrive;
 
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyFilesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -37,8 +46,23 @@ public class MyFilesFragment extends Fragment {
         return fragment;
     }
 
-    public MyFilesFragment() {
-        // Required empty public constructor
+    static MyFilesFragment myFilesFragment_instance = null;
+    ListView lv;
+    ArrayAdapter<String> adapter;
+    static List<String> names;
+    android.support.v4.app.FragmentTransaction ft ;
+
+
+    public static MyFilesFragment getFragmentInstance(){
+        names = HomePageActivity.output_files;
+        Log.d("********************************", String.valueOf(names.size()));
+        if(myFilesFragment_instance == null){
+            myFilesFragment_instance = new MyFilesFragment();
+            return myFilesFragment_instance;
+        }
+        else{
+            return myFilesFragment_instance;
+        }
     }
 
     @Override
@@ -90,12 +114,26 @@ public class MyFilesFragment extends Fragment {
 
     //=======================================
 
+    public void setFiles(List<String> files){
+        files.remove(0);
+        names = files;
+        Log.d("sucessssssss:", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_myfiles, container, false);
-    }
+
+        View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
+
+        lv = (ListView) rootView.findViewById(R.id.listView);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, names);
+
+        lv.setAdapter(adapter);
+
+        return rootView;    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
