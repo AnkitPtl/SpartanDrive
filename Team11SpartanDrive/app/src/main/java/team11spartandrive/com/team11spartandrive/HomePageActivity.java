@@ -333,7 +333,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
             FileList result = mService.files().list()
-                    .setMaxResults(10)
+                    //.setMaxResults(10)
                     .execute();
 
             List<File> files = result.getItems();

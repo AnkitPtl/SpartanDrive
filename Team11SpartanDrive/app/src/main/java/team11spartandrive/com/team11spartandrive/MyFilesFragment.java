@@ -55,7 +55,7 @@ public class MyFilesFragment extends Fragment {
 
     public static MyFilesFragment getFragmentInstance(){
         names = HomePageActivity.output_files;
-        Log.d("********************************", String.valueOf(names.size()));
+//        Log.d("********************************", String.valueOf(names.size()));
         if(myFilesFragment_instance == null){
             myFilesFragment_instance = new MyFilesFragment();
             return myFilesFragment_instance;
