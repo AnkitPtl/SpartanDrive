@@ -24,6 +24,9 @@ import com.google.api.services.drive.model.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import team11spartadrive.com.helper.DeleteFile;
+import team11spartadrive.com.helper.SearchFile;
+
 public class MyFilesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

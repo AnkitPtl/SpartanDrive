@@ -19,6 +19,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 
+import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
 import com.google.api.services.drive.model.*;
@@ -46,7 +47,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import team11spartadrive.com.helper.DriveFiles;
+
 public class HomePageActivity extends ActionBarActivity implements ActionBar.TabListener {
+    public static Drive.Files drive_files;
 
     /*
     Adding google drive oauth credentials
@@ -60,7 +64,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY };
+    private static final String[] SCOPES = { DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_METADATA};
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
@@ -164,7 +168,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         if (isGooglePlayServicesAvailable()) {
             refreshResults();
         } else {
-            mOutputText.setText("Google Play Services required: " +
+            Log.d("Error","Google Play Services required: " +
                     "after installing, close and relaunch this app.");
         }
     }
@@ -288,6 +292,13 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     }
 
 
+
+   /*
+    Asynchronous Task to get Data from Drive API
+     */
+
+
+
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
 
         private Exception mLastError = null;
@@ -332,9 +343,22 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         private List<String> getDataFromApi() throws IOException {
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
-            FileList result = mService.files().list()
-                    .setMaxResults(10)
+            drive_files = mService.files();
+
+            try {
+                drive_files.delete("0BzEjnpCvKYvoRVF1LXRZMks2ODQ").execute();
+                Log.d("Sucessssss:","yeeeeeeeeey deleted");
+            }
+            catch (Exception e){
+                Log.d("error in deletion",e.getMessage());
+            }
+            //setting files
+            //DriveFiles.getDriveFileInstance().setDrive_files();
+
+            FileList result = drive_files.list()
+                    //.setMaxResults(10)
                     .execute();
+
 
             List<File> files = result.getItems();
             if (files != null) {
@@ -381,7 +405,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity1.REQUEST_AUTHORIZATION);
+                            MainActivity.REQUEST_AUTHORIZATION);
                 } else {
                     Log.d("Error: ", "The following error occurred:\n"
                             + mLastError.getMessage());
