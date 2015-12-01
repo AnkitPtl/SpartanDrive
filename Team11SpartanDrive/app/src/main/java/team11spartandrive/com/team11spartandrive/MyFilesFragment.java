@@ -132,7 +132,7 @@ public class MyFilesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
 
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
@@ -142,14 +142,17 @@ public class MyFilesFragment extends Fragment {
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View rootView, int position,
+                                           long id) {
                 // TODO Auto-generated method stub
+                DriveFiles driveFiles = (DriveFiles) rootView.getTag();
+                new PopupOfAction(getContext(),driveFiles).show();
 
-                Log.v("long clicked", "pos: " + pos);
+                /*Log.v("long clicked", "pos: " + pos);
                 Toast toast = Toast.makeText(getActivity(),""+id,Toast.LENGTH_LONG);
                 toast.show();
 
+                return true;*/
                 return true;
             }
         });
