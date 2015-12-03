@@ -23,7 +23,7 @@ public class DriveFiles {
     static DriveFiles driveFilesInstance = null;
     private List<String> file_name_list = new ArrayList<String>();
     private List<String> file_id_list = new ArrayList<String>();
-    //public List<String> file_ext_list=  new ArrayList<String>();
+    private List<String> file_desc_list=  new ArrayList<String>();
     Map<String,String> file_ext_list = new HashMap<String,String>();
 
     private DriveFiles(){
@@ -36,6 +36,7 @@ public class DriveFiles {
             driveFilesInstance = new DriveFiles();
             return driveFilesInstance;
         }
+
         else{
             return driveFilesInstance;
         }
@@ -49,14 +50,14 @@ public class DriveFiles {
             FileList result = drive_files.list().execute();
             List<File> files = result.getItems();
             for(File file : files){
+
+                String fileDesc = "\n Description:"+file.getDescription()+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate();
+
                 file_name_list.add(file.getTitle());
-
                 file_id_list.add(file.getId());
-
-                //file_ext_list.add(file.getFileExtension());
-
-
+                file_desc_list.add(fileDesc);
                 file_ext_list.put(file.getTitle(), file.getFileExtension());
+
 
             }
         }
@@ -84,6 +85,8 @@ public class DriveFiles {
     public Map<String,String> getFile_ext_list() {
         return file_ext_list;
     }
-
+    public List<String> getFile_desc_list() {
+        return file_desc_list;
+    }
 
 }

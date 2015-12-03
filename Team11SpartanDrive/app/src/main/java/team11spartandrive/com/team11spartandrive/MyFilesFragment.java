@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,9 +143,10 @@ public class MyFilesFragment extends Fragment {
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,DriveFiles.getDriveFileInstance().getFileNameList());
 
-        CustomListAdapter ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList());
+        CustomListAdapter ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList(),DriveFiles.getDriveFileInstance().getFile_desc_list());
 
         lv.setAdapter(ad);
+
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -153,8 +155,8 @@ public class MyFilesFragment extends Fragment {
                 // TODO Auto-generated method stub
                 DriveFiles driveFiles = (DriveFiles) rootView.getTag();
                 new PopupOfAction(getContext(), driveFiles).show();
-             /*   Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent .setType("vnd.android.cursor.dir/email");
+            /* Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("vnd.android.cursor.dir/email");
 
                 //String to[] = {"asd@gmail.com"};
 
@@ -162,13 +164,21 @@ public class MyFilesFragment extends Fragment {
 
 // the attachment
 
-                emailIntent .putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/storage/sdcard0/Download/1433874607638.mp4"));
+               // emailIntent .putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/storage/sdcard0/snp_log.txt"));
 
-// the mail subject
+                try {
+
+                    File file = driveFiles.getDrive_files().list().execute().getItems().get(1);
+                  //  Uri uri = Uri.fromFile(file);
+                    emailIntent.putExtra(Intent.EXTRA_STREAM,);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
 
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
 
-                startActivity(Intent.createChooser(emailIntent , "Send email..."));
+                startActivity(Intent.createChooser(emailIntent , "Send email..."));*/
 
                 // emailIntent.setType("text/plain");
 
@@ -182,11 +192,10 @@ public class MyFilesFragment extends Fragment {
 
                 // onListItemClick listener is not called anymore.
 
-                *//*Log.v("long clicked", "pos: " + pos);
+                //*Log.v("long clicked", "pos: " + pos);
                 Toast toast = Toast.makeText(getActivity(),""+id,Toast.LENGTH_LONG);
                 toast.show();
 
-                return true;*/
                 return true;
             }
         });

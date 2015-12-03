@@ -22,17 +22,20 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final List<String> itemname;
+    private final List<String> desc;
     //private final Integer [] imgid;
     private int imgid = R.mipmap.folder;
     Map<String,String> file_ext_list;
 
-    public CustomListAdapter(Activity context, List<String> itemname) {
+    public CustomListAdapter(Activity context, List<String> itemname,List<String> desc) {
+
         super(context, R.layout.mylist, itemname);
         // TODO Auto-generated constructor stub
 
         this.context=context;
         this.itemname=itemname;
         file_ext_list = DriveFiles.getDriveFileInstance().getFile_ext_list();
+        this.desc=desc;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -41,8 +44,10 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         View rowView=inflater.inflate(R.layout.mylist, null,true);
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
+        //TextView subText =(TextView) rowView.findViewById(R.id.subItem);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        txtTitle.setText(itemname.get(position).toString());
+        txtTitle.setText(itemname.get(position).toString()+ desc.get(position));
+     //   subText.setText(desc.get(position).toString());
 
         try {
             if (file_ext_list.get(itemname.get(position).toString()).equals("pdf")) {
@@ -61,7 +66,6 @@ public class CustomListAdapter extends ArrayAdapter<String> {
             imgid = R.mipmap.folder;
         }
         imageView.setImageResource(imgid);
-
         return rowView;
 
     };
