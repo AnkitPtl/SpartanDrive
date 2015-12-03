@@ -2,11 +2,14 @@ package team11spartadrive.com.helper;
 
 import android.util.Log;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +66,7 @@ public class DriveFiles {
                 file_id_list.add(file.getId());
                 file_desc_list.add(fileDesc);
                 file_ext_list.put(file.getTitle(), file.getFileExtension());
-                file_name_id.put(file.getTitle(),file.getId());
+                file_name_id.put(file.getTitle(), file.getId());
                 /*
                  create List<String> to store all required details of file and map it with ID as a key.
                  1) file name
@@ -74,6 +77,21 @@ public class DriveFiles {
                 List<String> temp_metadata = new ArrayList<String>();
                 temp_metadata.add(file.getTitle());
                 temp_metadata.add(file.getFileExtension());
+
+                DateTime mdate = file.getModifiedDate();
+                DateTime createdDated = file.getCreatedDate();
+
+                SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd ");
+                SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+                try {
+
+                    String modiDate = myFormat.format(fromUser.parse(mdate.toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate());
 
                 file_metadata_id.put(file.getId(), temp_metadata);

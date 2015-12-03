@@ -61,7 +61,8 @@ public class MyFilesFragment extends Fragment {
 
     static MyFilesFragment myFilesFragment_instance = null;
     ListView lv;
-    ArrayAdapter<String> adapter;
+ //   ArrayAdapter<String> adapter;
+    CustomListAdapter ad;
     android.support.v4.app.FragmentTransaction ft ;
 
 
@@ -118,9 +119,9 @@ public class MyFilesFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,DriveFiles.getDriveFileInstance().getFileNameList());
+    //    adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,DriveFiles.getDriveFileInstance().getFileNameList());
 
-        CustomListAdapter ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList(),DriveFiles.getDriveFileInstance().getFile_desc_list());
+         ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList(),DriveFiles.getDriveFileInstance().getFile_desc_list());
 
         lv.setAdapter(ad);
 
@@ -190,7 +191,7 @@ public class MyFilesFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                MyFilesFragment.this.adapter.getFilter().filter(cs);
+                MyFilesFragment.this.ad.getFilter().filter(cs);
             }
 
             @Override

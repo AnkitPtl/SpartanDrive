@@ -44,10 +44,10 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         View rowView=inflater.inflate(R.layout.mylist, null,true);
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
-        //TextView subText =(TextView) rowView.findViewById(R.id.subItem);
+        TextView subText =(TextView) rowView.findViewById(R.id.subItem);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        txtTitle.setText(itemname.get(position).toString()+ desc.get(position));
-     //   subText.setText(desc.get(position).toString());
+        txtTitle.setText(itemname.get(position).toString());//+ desc.get(position));
+        subText.setText(desc.get(position).toString());
 
         try {
             if (file_ext_list.get(itemname.get(position).toString()).equals("pdf")) {

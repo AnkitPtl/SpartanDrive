@@ -6,8 +6,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:padding="5dp" />
 
         <LinearLayout android:layout_width="wrap_content"
@@ -23,21 +23,20 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="2dp"
-                android:maxLength="10000"
                 android:textColor="#303036" />
-           <!-- <TextView
+            <TextView
                 android:id="@+id/subItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:padding="2dp"
-                android:textColor="#303036"
-                android:maxLength="20"/>
+                android:textColor="#6699ff"
+                android:textSize="15dp"
+                android:maxLength="500"/>
 
--->
         </LinearLayout>
     </LinearLayout>
 
