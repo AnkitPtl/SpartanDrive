@@ -8,7 +8,9 @@ import com.google.api.services.drive.model.FileList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import team11spartandrive.com.team11spartandrive.HomePageActivity;
 
@@ -21,6 +23,8 @@ public class DriveFiles {
     static DriveFiles driveFilesInstance = null;
     private List<String> file_name_list = new ArrayList<String>();
     private List<String> file_id_list = new ArrayList<String>();
+    //public List<String> file_ext_list=  new ArrayList<String>();
+    Map<String,String> file_ext_list = new HashMap<String,String>();
 
     private DriveFiles(){
 
@@ -44,10 +48,16 @@ public class DriveFiles {
 
             FileList result = drive_files.list().execute();
             List<File> files = result.getItems();
-
             for(File file : files){
                 file_name_list.add(file.getTitle());
+
                 file_id_list.add(file.getId());
+
+                //file_ext_list.add(file.getFileExtension());
+
+
+                file_ext_list.put(file.getTitle(), file.getFileExtension());
+
             }
         }
         catch (Exception e){
@@ -66,5 +76,14 @@ public class DriveFiles {
     public List<String> getFileIdList(){
         return file_id_list;
     }
+
+//    public List<String> getFile_ext_list() {
+//        return file_ext_list;
+//    }
+
+    public Map<String,String> getFile_ext_list() {
+        return file_ext_list;
+    }
+
 
 }

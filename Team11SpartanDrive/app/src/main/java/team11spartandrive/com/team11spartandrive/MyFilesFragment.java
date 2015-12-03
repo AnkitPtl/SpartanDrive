@@ -2,6 +2,7 @@ package team11spartandrive.com.team11spartandrive;
 
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,7 @@ public class MyFilesFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -132,13 +134,17 @@ public class MyFilesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
 
+        //final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
+
+        final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, DriveFiles.getDriveFileInstance().getFileNameList());
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,DriveFiles.getDriveFileInstance().getFileNameList());
 
-        lv.setAdapter(adapter);
+        CustomListAdapter ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList());
+
+        lv.setAdapter(ad);
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -146,9 +152,37 @@ public class MyFilesFragment extends Fragment {
                                            long id) {
                 // TODO Auto-generated method stub
                 DriveFiles driveFiles = (DriveFiles) rootView.getTag();
-                new PopupOfAction(getContext(),driveFiles).show();
+                new PopupOfAction(getContext(), driveFiles).show();
+             /*   Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent .setType("vnd.android.cursor.dir/email");
 
-                /*Log.v("long clicked", "pos: " + pos);
+                //String to[] = {"asd@gmail.com"};
+
+                //emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+
+// the attachment
+
+                emailIntent .putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/storage/sdcard0/Download/1433874607638.mp4"));
+
+// the mail subject
+
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+
+                startActivity(Intent.createChooser(emailIntent , "Send email..."));
+
+                // emailIntent.setType("text/plain");
+
+                // emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pic));d
+
+                // startActivity(Intent.createChooser(emailIntent,"Share you on the jobing"));
+
+                // startActivity(emailIntent);
+
+                // Return true to consume the click event. In this case the
+
+                // onListItemClick listener is not called anymore.
+
+                *//*Log.v("long clicked", "pos: " + pos);
                 Toast toast = Toast.makeText(getActivity(),""+id,Toast.LENGTH_LONG);
                 toast.show();
 
@@ -156,6 +190,7 @@ public class MyFilesFragment extends Fragment {
                 return true;
             }
         });
+
 
         myFilter.addTextChangedListener(new TextWatcher() {
 
@@ -178,7 +213,9 @@ public class MyFilesFragment extends Fragment {
             }
         });
 
-        return rootView;    }
+        return rootView;
+
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

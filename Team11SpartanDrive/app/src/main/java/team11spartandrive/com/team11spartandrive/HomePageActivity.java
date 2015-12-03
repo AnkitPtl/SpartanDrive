@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import team11spartadrive.com.helper.DriveFiles;
+import team11spartadrive.com.helper.*;
 
 public class HomePageActivity extends ActionBarActivity implements ActionBar.TabListener {
     public static Drive.Files drive_files;
@@ -64,8 +64,8 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_METADATA};
-
+    private static final String[] SCOPES = {DriveScopes.DRIVE_METADATA_READONLY};
+// DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
@@ -79,6 +79,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         super.onCreate(savedInstanceState);
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_home_page);
+
 
 //==============start
 
@@ -379,12 +380,11 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             mProgress.hide();
             if (output == null || output.size() == 0) {
                 Log.d("Error", "No results returned.");
-            } else {
+            }
+            else {
                 output.add(0, "Data retrieved using the Drive API:");
                 Log.d("Data", TextUtils.join("\n", output));
-
                 MyFilesFragment.getFragmentInstance().refresh();
-
                 Log.d("Error", TextUtils.join("\n", output));
             }
         }
