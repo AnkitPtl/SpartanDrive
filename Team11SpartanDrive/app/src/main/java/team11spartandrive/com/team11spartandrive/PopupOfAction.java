@@ -3,10 +3,12 @@ package team11spartandrive.com.team11spartandrive;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import team11spartadrive.com.helper.DriveFiles;
 
@@ -23,17 +25,17 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     Button shareBtn;
     Button deleteBtn;
     DriveFiles driveFiles;
+    private String temp_ID;
 
 
-    public PopupOfAction(Context context,DriveFiles driveFiles) {
+    public PopupOfAction(Context context, String temp_ID) {
         super(context);
-
 
         this.setTitle("Select Action");
 
         this.driveFiles = driveFiles;
         this.context = context;
-
+        this.temp_ID = temp_ID;
 
         // INSTANTIATE LAYOUTS
 
@@ -73,42 +75,28 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
 
 
-        /*if(view.getTag().toString().equalsIgnoreCase(UPDATE)){
+        if (view.getTag().toString().equalsIgnoreCase("SHARE FILE")) {
             // UPDATE DATA
-            new PopupOfUpdateOrAdd((MainActivity)context, dog).show();
 
-        }else{
-            // DELETE DATA
-            // INSTANTIATE DB HELPER
-            MainActivity mainActivity = (MainActivity) context;
-            MyDatabaseHelper dbHelper = new MyDatabaseHelper(context);
-            dbHelper.delete(dog.getId());
+            Toast toast = Toast.makeText(context, "update called"+temp_ID, Toast.LENGTH_LONG);
+            toast.show();
 
+        } else if(view.getTag().toString().equalsIgnoreCase("DELETE")){
 
-            // GET ALL RECORD
-            Dog[] dogs = dbHelper.getRecords();
+//            try {
+//                drive_files.delete(temp_ID).execute();
+//                Log.d("Sucessssss:", "yeeeeeeeeey deleted");
+//            }
+//            catch (Exception e){
+//                Log.d("error in deletion",e.getMessage());
+//            }
 
-            dbHelper.db.close();
-            // REMOVE LISTVIEW FROM LINEARLAYOUT
-            mainActivity.linearLayout.removeView(mainActivity.listView);
-
-            // REINSTANTIATE LISTVIEW
-            mainActivity.listView = new ListView(mainActivity);
-            mainActivity.listView.setOnItemClickListener(mainActivity);
-
-            // SET ADAPTER
-            mainActivity.listView.setAdapter(new CustomArrayAdapter(mainActivity,
-                    dogs));
-
-            // ADD LISTVIEW TO LINEARLAYOUT
-            mainActivity.linearLayout.addView(mainActivity.listView);
-
-
-*/
+            Toast toast = Toast.makeText(context, "delete called"+temp_ID, Toast.LENGTH_LONG);
+            toast.show();
         }
 
         // DISMISS
         //this.dismiss();
     }
-
+}
 //}

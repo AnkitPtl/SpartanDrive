@@ -25,6 +25,12 @@ public class DriveFiles {
     private List<String> file_id_list = new ArrayList<String>();
     private List<String> file_desc_list=  new ArrayList<String>();
     Map<String,String> file_ext_list = new HashMap<String,String>();
+    private Map<String,String> file_name_id = new HashMap<String,String>();
+    /*
+    <ID, file_metadata>
+     */
+    private Map<String, List<String>> file_metadata_id = new HashMap<String, List<String>>();
+
 
     private DriveFiles(){
 
@@ -57,7 +63,20 @@ public class DriveFiles {
                 file_id_list.add(file.getId());
                 file_desc_list.add(fileDesc);
                 file_ext_list.put(file.getTitle(), file.getFileExtension());
+                file_name_id.put(file.getTitle(),file.getId());
+                /*
+                 create List<String> to store all required details of file and map it with ID as a key.
+                 1) file name
+                 2) file extension
+                 3) Description
+                */
 
+                List<String> temp_metadata = new ArrayList<String>();
+                temp_metadata.add(file.getTitle());
+                temp_metadata.add(file.getFileExtension());
+                temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate());
+
+                file_metadata_id.put(file.getId(), temp_metadata);
 
             }
         }
@@ -87,6 +106,14 @@ public class DriveFiles {
     }
     public List<String> getFile_desc_list() {
         return file_desc_list;
+    }
+
+    public String getIdFromName(String name){
+        return file_name_id.get(name);
+    }
+
+    public Map<String, List<String>> get_file_metadata_from_id(){
+        return file_metadata_id;
     }
 
 }

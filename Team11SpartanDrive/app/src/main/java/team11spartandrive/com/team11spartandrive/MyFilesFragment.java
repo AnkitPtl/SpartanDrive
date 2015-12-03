@@ -133,10 +133,6 @@ public class MyFilesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
-        //final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
 
         final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
         lv = (ListView) rootView.findViewById(R.id.listView);
@@ -147,14 +143,23 @@ public class MyFilesFragment extends Fragment {
 
         lv.setAdapter(ad);
 
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View rootView, int position,
                                            long id) {
                 // TODO Auto-generated method stub
-                DriveFiles driveFiles = (DriveFiles) rootView.getTag();
-                new PopupOfAction(getContext(), driveFiles).show();
+                //DriveFiles driveFiles = (DriveFiles) rootView.getTag();
+
+                //get ID from file name
+                //Log.d("file name------> ", lv.getItemAtPosition((int) id).toString());
+                String temp_ID = DriveFiles.getDriveFileInstance().getIdFromName(lv.getItemAtPosition((int)id).toString());
+                //Log.d("ID -------> ",temp_ID);
+                new PopupOfAction(getContext(), temp_ID).show();
+
+                //Toast toast = Toast.makeText(getActivity(),String.valueOf(lv.getItemAtPosition((int) id)),Toast.LENGTH_LONG);
+                //toast.show();
+
+
             /* Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("vnd.android.cursor.dir/email");
 
@@ -193,8 +198,6 @@ public class MyFilesFragment extends Fragment {
                 // onListItemClick listener is not called anymore.
 
                 //*Log.v("long clicked", "pos: " + pos);
-                Toast toast = Toast.makeText(getActivity(),""+id,Toast.LENGTH_LONG);
-                toast.show();
 
                 return true;
             }

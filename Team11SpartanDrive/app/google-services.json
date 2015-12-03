@@ -1,1 +1,131 @@
-{"project_info":{"project_id":"team11spartandrive","project_number":"818315017753","name":"Team11SpartanDrive"},"client":[{"client_info":{"mobilesdk_app_id":"1:818315017753:android:27d689d63f1b7a06","client_id":"android:com.google.samples.quickstart.signin","client_type":1,"android_client_info":{"package_name":"com.google.samples.quickstart.signin"}},"oauth_client":[{"client_id":"818315017753-k8vq8qlga7hveq3kb1e9g340l7k7v5vf.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"com.google.samples.quickstart.signin","certificate_hash":"9FA01012D603B888D4E0499E413026174F5B7732"}}],"api_key":[],"services":{"analytics_service":{"status":1},"cloud_messaging_service":{"status":1,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":2},"ads_service":{"status":1}}},{"client_info":{"mobilesdk_app_id":"1:818315017753:android:b9a56f518176a628","client_id":"android:team11spartandrive.com.team11spartandrive","client_type":1,"android_client_info":{"package_name":"team11spartandrive.com.team11spartandrive"}},"oauth_client":[{"client_id":"818315017753-u44a7olsaef6jj361lipi66fku5rjcr8.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"team11spartandrive.com.team11spartandrive","certificate_hash":"622A5E0FF8628E8042EBE44E60367AF8CB51BC57"}},{"client_id":"818315017753-iov60l87inkj1nl6qc598hcdcoqmmlrn.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"team11spartandrive.com.team11spartandrive","certificate_hash":"6C9158ADC71223FBFD35C31E6201032569AE9377"}},{"client_id":"818315017753-9hd98ucbpo2icrqs2glh06ove6kn7prc.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"team11spartandrive.com.team11spartandrive","certificate_hash":"BFD8A606A194E7DA87ED0B90CDE332D6556BFB34"}},{"client_id":"818315017753-rbvu8orab2bk3frd2310rntpfkcphc4l.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"team11spartandrive.com.team11spartandrive","certificate_hash":"ED8605320EDA47B5AA2791857B192D484E510A83"}},{"client_id":"818315017753-b5va066prbq944uu2jc93ccfjqtuf5h7.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"team11spartandrive.com.team11spartandrive","certificate_hash":"9FA01012D603B888D4E0499E413026174F5B7732"}}],"api_key":[],"services":{"analytics_service":{"status":1},"cloud_messaging_service":{"status":2,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":2},"ads_service":{"status":1}}}],"client_info":[],"ARTIFACT_VERSION":"1"}
+{
+  "project_info": {
+    "project_id": "team11spartandrive",
+    "project_number": "818315017753",
+    "name": "Team11SpartanDrive"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818315017753:android:27d689d63f1b7a06",
+        "client_id": "android:com.google.samples.quickstart.signin",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.google.samples.quickstart.signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818315017753-k8vq8qlga7hveq3kb1e9g340l7k7v5vf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.samples.quickstart.signin",
+            "certificate_hash": "9FA01012D603B888D4E0499E413026174F5B7732"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818315017753:android:b9a56f518176a628",
+        "client_id": "android:team11spartandrive.com.team11spartandrive",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "team11spartandrive.com.team11spartandrive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818315017753-hbrbrod1avsrsj9d4u9bo7a3lgfi3t0h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "AD18305660E121FDC890468E192CFE1C228311FB"
+          }
+        },
+        {
+          "client_id": "818315017753-u44a7olsaef6jj361lipi66fku5rjcr8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "622A5E0FF8628E8042EBE44E60367AF8CB51BC57"
+          }
+        },
+        {
+          "client_id": "818315017753-iov60l87inkj1nl6qc598hcdcoqmmlrn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "6C9158ADC71223FBFD35C31E6201032569AE9377"
+          }
+        },
+        {
+          "client_id": "818315017753-9hd98ucbpo2icrqs2glh06ove6kn7prc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "BFD8A606A194E7DA87ED0B90CDE332D6556BFB34"
+          }
+        },
+        {
+          "client_id": "818315017753-rbvu8orab2bk3frd2310rntpfkcphc4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "ED8605320EDA47B5AA2791857B192D484E510A83"
+          }
+        },
+        {
+          "client_id": "818315017753-b5va066prbq944uu2jc93ccfjqtuf5h7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team11spartandrive.com.team11spartandrive",
+            "certificate_hash": "9FA01012D603B888D4E0499E413026174F5B7732"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

@@ -66,6 +66,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {DriveScopes.DRIVE_METADATA_READONLY};
 // DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,
+
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
@@ -77,7 +78,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_home_page);
 
 
@@ -317,13 +317,11 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
-                Log.d("Message","--------------------------------------->");
                 List<String> data = getDataFromApi();
-                int count = 1;
-                for(String temp : data){
-                    Log.d("File"+(count++), temp);
-                }
-
+//                int count = 1;
+//                for(String temp : data){
+//                    Log.d("File"+(count++), temp);
+//                }
                 return data;
             } catch (Exception e) {
                 mLastError = e;
@@ -346,13 +344,13 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
             DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
 
-            try {
-                drive_files.delete("0BzEjnpCvKYvoRVF1LXRZMks2ODQ").execute();
-                Log.d("Sucessssss:","yeeeeeeeeey deleted");
-            }
-            catch (Exception e){
-                Log.d("error in deletion",e.getMessage());
-            }
+//            try {
+//                drive_files.delete("0BzEjnpCvKYvoRVF1LXRZMks2ODQ").execute();
+//                Log.d("Sucessssss:","yeeeeeeeeey deleted");
+//            }
+//            catch (Exception e){
+//                Log.d("error in deletion",e.getMessage());
+//            }
 
             FileList result = drive_files.list()
                     .setMaxResults(10)
@@ -383,9 +381,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             }
             else {
                 output.add(0, "Data retrieved using the Drive API:");
-                Log.d("Data", TextUtils.join("\n", output));
                 MyFilesFragment.getFragmentInstance().refresh();
-                Log.d("Error", TextUtils.join("\n", output));
             }
         }
 
@@ -406,7 +402,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                             + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+                Log.d("Log:","Request cancelled.");
             }
         }
     }
