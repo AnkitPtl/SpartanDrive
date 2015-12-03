@@ -98,25 +98,7 @@ public class MyFilesFragment extends Fragment {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.add_item:
-                final CharSequence options[] = new CharSequence[] {"Folder", "Upload"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("New");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("User clicked  on " + options[which]);
-                        File body = new File();
-                        body.setTitle("NewSpartan");
-                        body.setMimeType("application/vnd.google-apps.folder");
-                        try {
-                            File file = HomePageActivity.mService.files().insert(body).execute();
-                        }
-                        catch (Exception e){
-                            System.out.println("Error while creating a new folder!");
-                        }
-                    }
-                });
-                builder.show();
+                new AddActionHandler(getContext()).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -133,7 +115,6 @@ public class MyFilesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
