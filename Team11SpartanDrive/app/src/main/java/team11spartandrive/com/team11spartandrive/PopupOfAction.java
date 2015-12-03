@@ -17,13 +17,15 @@ import team11spartadrive.com.helper.DriveFiles;
  */
 public class PopupOfAction extends Dialog implements View.OnClickListener {
 
-    final static String SHARE = "Share File";
+    final static String SHARE = "Share";
     final static String DELETE = "Delete";
+    final static String EMAIL = "Email";
 
     Context context;
     LinearLayout linearLayout;
     Button shareBtn;
     Button deleteBtn;
+    Button emailBtn;
     DriveFiles driveFiles;
     private String temp_ID;
 
@@ -45,6 +47,7 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
 
         shareBtn = new Button(context);
         deleteBtn = new Button(context);
+        emailBtn = new Button(context);
 
 
         // SET TEXT AND TAG
@@ -55,15 +58,20 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
         deleteBtn.setText(DELETE);
         deleteBtn.setTag(DELETE);
 
+        emailBtn.setText(EMAIL);
+        emailBtn.setTag(EMAIL);
+
         // SET CLICK LISTENER
 
         shareBtn.setOnClickListener(this);
         deleteBtn.setOnClickListener(this);
+        emailBtn.setOnClickListener(this);
 
         // ADD TEXTVIEW TO LINEARLAYOUT
 
         linearLayout.addView(shareBtn);
         linearLayout.addView(deleteBtn);
+        linearLayout.addView(emailBtn);
 
         // SET CONTENT VIEW
         this.setContentView(linearLayout);
@@ -93,6 +101,15 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
 
             Toast toast = Toast.makeText(context, "delete called"+temp_ID, Toast.LENGTH_LONG);
             toast.show();
+
+        } else if(view.getTag().toString().equalsIgnoreCase("EMAIL")){
+
+
+            Toast toast = Toast.makeText(context, "email called"+temp_ID, Toast.LENGTH_LONG);
+            toast.show();
+        }
+        else{
+            return;
         }
 
         // DISMISS
