@@ -22,6 +22,7 @@ import team11spartandrive.com.team11spartandrive.HomePageActivity;
  */
 public class DriveFiles {
 
+    private String description = "";
     private Drive.Files drive_files = null;
     static DriveFiles driveFilesInstance = null;
     private List<String> file_name_list = new ArrayList<String>();
@@ -59,8 +60,13 @@ public class DriveFiles {
             FileList result = drive_files.list().execute();
             List<File> files = result.getItems();
             for(File file : files){
-
-                String fileDesc = "\n Description:"+file.getDescription()+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate();
+                if(file.getDescription() == null){
+                    description = "No Description";
+                }
+                else{
+                    description = file.getDescription();
+                }
+                String fileDesc = "\n Description: "+description+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate();
 
                 file_name_list.add(file.getTitle());
                 file_id_list.add(file.getId());
