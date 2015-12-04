@@ -23,13 +23,14 @@ import team11spartandrive.com.team11spartandrive.HomePageActivity;
 public class DriveFiles {
 
     private String description = "";
-    private Drive.Files drive_files = null;
+    public static Drive.Files drive_files = null;
     static DriveFiles driveFilesInstance = null;
     private List<String> file_name_list = new ArrayList<String>();
     private List<String> file_id_list = new ArrayList<String>();
     private List<String> file_desc_list=  new ArrayList<String>();
     Map<String,String> file_ext_list = new HashMap<String,String>();
     private Map<String,String> file_name_id = new HashMap<String,String>();
+    private List<File> files;
     /*
     <ID, file_metadata>
      */
@@ -58,7 +59,7 @@ public class DriveFiles {
         try {
 
             FileList result = drive_files.list().execute();
-            List<File> files = result.getItems();
+            files = result.getItems();
             for(File file : files){
                 if(file.getDescription() == null){
                     description = "No Description";
@@ -138,6 +139,10 @@ public class DriveFiles {
 
     public Map<String, List<String>> get_file_metadata_from_id(){
         return file_metadata_id;
+    }
+
+    public List<File> getfiles(){
+        return files;
     }
 
 }

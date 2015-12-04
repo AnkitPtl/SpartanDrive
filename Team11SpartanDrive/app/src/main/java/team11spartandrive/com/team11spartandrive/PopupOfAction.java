@@ -90,16 +90,28 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
             toast.show();
 
         } else if(view.getTag().toString().equalsIgnoreCase("DELETE")){
+            final String[] success = {""};
+            final String[] error = {""};
+            new Thread() {
+                public void run() {
+                    try
 
-//            try {
-//                drive_files.delete(temp_ID).execute();
-//                Log.d("Sucessssss:", "yeeeeeeeeey deleted");
-//            }
-//            catch (Exception e){
-//                Log.d("error in deletion",e.getMessage());
-//            }
+                    {
+                        DriveFiles.getDriveFileInstance().drive_files.delete(temp_ID).execute();
+                        Log.d("Sucessssss:", "file "+temp_ID+" deleted");
+                        success[0] = "file "+temp_ID+" deleted";
+                    } catch (
+                            Exception e
+                            )
 
-            Toast toast = Toast.makeText(context, "delete called"+temp_ID, Toast.LENGTH_LONG);
+                    {
+                        Log.d("error in deletion", e.getMessage());
+                        error[0] = e.getMessage();
+                    }
+                }
+            }.start();
+
+            Toast toast = Toast.makeText(context,"file "+temp_ID+" deleted", Toast.LENGTH_LONG);
             toast.show();
 
         } else if(view.getTag().toString().equalsIgnoreCase("EMAIL")){

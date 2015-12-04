@@ -141,8 +141,12 @@ public class MyFilesFragment extends Fragment {
                 //Toast toast = Toast.makeText(getActivity(),String.valueOf(lv.getItemAtPosition((int) id)),Toast.LENGTH_LONG);
                 //toast.show();
 
+//                for(File file : DriveFiles.getDriveFileInstance().getfiles()){
+//                    Log.d("LINK---->", file.getAlternateLink());
+//                   // Log.d("Download", file.getDownloadUrl());
+//                }
 
-            /* Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("vnd.android.cursor.dir/email");
 
                 //String to[] = {"asd@gmail.com"};
@@ -151,21 +155,15 @@ public class MyFilesFragment extends Fragment {
 
 // the attachment
 
-               // emailIntent .putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/storage/sdcard0/snp_log.txt"));
+                java.io.File file_t = new java.io.File("file///mnt/sdcard0/Resume_jainam.pdf");
+                Uri uri = Uri.fromFile(file_t);
 
-                try {
 
-                    File file = driveFiles.getDrive_files().list().execute().getItems().get(1);
-                  //  Uri uri = Uri.fromFile(file);
-                    emailIntent.putExtra(Intent.EXTRA_STREAM,);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+               emailIntent .putExtra(Intent.EXTRA_STREAM,Uri.parse("file///mnt/sdcard0/DCIM/"));
 
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
 
-                startActivity(Intent.createChooser(emailIntent , "Send email..."));*/
+                startActivity(Intent.createChooser(emailIntent , "Send email..."));
 
                 // emailIntent.setType("text/plain");
 
