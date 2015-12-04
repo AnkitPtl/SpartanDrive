@@ -146,24 +146,25 @@ public class MyFilesFragment extends Fragment {
 //                   // Log.d("Download", file.getDownloadUrl());
 //                }
 
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("vnd.android.cursor.dir/email");
 
-                //String to[] = {"asd@gmail.com"};
-
-                //emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
-
-// the attachment
-
-                java.io.File file_t = new java.io.File("file///mnt/sdcard0/Resume_jainam.pdf");
-                Uri uri = Uri.fromFile(file_t);
-
-
-               emailIntent .putExtra(Intent.EXTRA_STREAM,Uri.parse("file///mnt/sdcard0/DCIM/"));
-
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-
-                startActivity(Intent.createChooser(emailIntent , "Send email..."));
+//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//                emailIntent.setType("vnd.android.cursor.dir/email");
+//
+//                //String to[] = {"asd@gmail.com"};
+//
+//                //emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+//
+//// the attachment
+//
+//                java.io.File file_t = new java.io.File("file///mnt/sdcard0/Resume_jainam.pdf");
+//                Uri uri = Uri.fromFile(file_t);
+//
+//
+//               emailIntent .putExtra(Intent.EXTRA_STREAM,Uri.parse("file///mnt/sdcard0/DCIM/"));
+//
+//                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+//
+//                startActivity(Intent.createChooser(emailIntent , "Send email..."));
 
                 // emailIntent.setType("text/plain");
 

@@ -21,11 +21,8 @@ import com.google.api.client.util.ExponentialBackOff;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-
 import com.google.api.services.drive.model.*;
-
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,13 +31,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,14 +48,13 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
      */
 
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {DriveScopes.DRIVE_METADATA_READONLY, DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA};
+    private static final String[] SCOPES = {DriveScopes.DRIVE_METADATA_READONLY};
 // DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,
 
     private ViewPager viewPager;
@@ -80,20 +70,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
-//==============start
-
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-
-
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Drive API ...");
 
@@ -103,7 +79,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-//==============end
+
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -155,7 +131,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
     }
 
-//====================start
+
     /**
      * Called whenever this activity is pushed to the foreground, such as after
      * a call to onCreate().
@@ -295,8 +271,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     Asynchronous Task to get Data from Drive API
      */
 
-
-
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
 
         private Exception mLastError = null;
@@ -318,10 +292,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         protected List<String> doInBackground(Void... params) {
             try {
                 List<String> data = getDataFromApi();
-//                int count = 1;
-//                for(String temp : data){
-//                    Log.d("File"+(count++), temp);
-//                }
                 return data;
             } catch (Exception e) {
                 mLastError = e;
@@ -344,14 +314,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
             DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
 
-//            try {
-//                drive_files.delete("0BzEjnpCvKYvoRVF1LXRZMks2ODQ").execute();
-//                Log.d("Sucessssss:","yeeeeeeeeey deleted");
-//            }
-//            catch (Exception e){
-//                Log.d("error in deletion",e.getMessage());
-//            }
-
             FileList result = drive_files.list()
                     .setMaxResults(10)
                     .execute();
@@ -369,7 +331,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -406,5 +367,4 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             }
         }
     }
-    //==============end
 }
