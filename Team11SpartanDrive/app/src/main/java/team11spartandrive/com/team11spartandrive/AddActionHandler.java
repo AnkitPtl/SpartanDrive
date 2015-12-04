@@ -20,7 +20,7 @@ import team11spartadrive.com.helper.DriveFiles;
  */
 public class AddActionHandler extends Dialog implements View.OnClickListener {
     final static String newFolder = "Folder";
-    final static String newFile = "File";
+    final static String newFile = "Upload";
     Context context;
     LinearLayout linearLayout;
     Button newFolderBtn;
@@ -67,18 +67,18 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                 closeActionHandlerDialog();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Enter folder name");
+                builder.setTitle("New folder");
                 // Set up the input
                 final EditText input = new EditText(context);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
                 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         newFolderName = input.getText().toString();
-                        if (newFolderName.trim() != "") {
+                        if (!newFolderName.isEmpty()) {
                             new Thread() {
                                 public void run() {
                                     File body = new File();
@@ -97,7 +97,7 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -107,7 +107,7 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                 });
                 builder.show();
                 break;
-            case "File":
+            case "Upload":
                 this.dismiss();
                 break;
         }
