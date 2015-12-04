@@ -56,7 +56,6 @@ public class DriveFiles {
     public void setDrive_files(Drive.Files drive_files){
         this.drive_files = drive_files;
         try {
-
             FileList result = drive_files.list().execute();
             List<File> files = result.getItems();
             for(File file : files){
@@ -66,8 +65,17 @@ public class DriveFiles {
                 else{
                     description = file.getDescription();
                 }
-                String fileDesc = "\n Description: "+description+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate();
-
+                String mdate = file.getModifiedDate().toString();
+                String createdDate = file.getCreatedDate().toString();
+                SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy");
+                try {
+                    mdate = myFormat.format(fromUser.parse(mdate.split("T")[0]));
+                    createdDate = myFormat.format(fromUser.parse(createdDate.split("T")[0]));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String fileDesc = "\n Description: "+description+"\n Modified date:"+ mdate +"\n Created date:"+ createdDate;
                 file_name_list.add(file.getTitle());
                 file_id_list.add(file.getId());
                 file_desc_list.add(fileDesc);
@@ -79,29 +87,11 @@ public class DriveFiles {
                  2) file extension
                  3) Description
                 */
-
                 List<String> temp_metadata = new ArrayList<String>();
                 temp_metadata.add(file.getTitle());
                 temp_metadata.add(file.getFileExtension());
-
-                DateTime mdate = file.getModifiedDate();
-                DateTime createdDated = file.getCreatedDate();
-
-                SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd ");
-                SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-
-                try {
-
-                    String modiDate = myFormat.format(fromUser.parse(mdate.toString()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ file.getModifiedDate()+"\n Created date:"+ file.getCreatedDate());
-
+                temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ mdate +"\n Created date:"+ createdDate);
                 file_metadata_id.put(file.getId(), temp_metadata);
-
             }
         }
         catch (Exception e){
