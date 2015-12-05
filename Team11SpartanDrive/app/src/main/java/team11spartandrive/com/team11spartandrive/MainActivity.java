@@ -183,9 +183,6 @@ public class  MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(this, HomePageActivity.class);
             startActivity(intent);
 
-            // Set button visibility
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
             // Show signed-out message and clear email field
             mStatus.setText(R.string.signed_out);

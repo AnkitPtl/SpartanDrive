@@ -1,12 +1,5 @@
 package team11spartandrive.com.team11spartandrive;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -21,8 +14,12 @@ import com.google.api.client.util.ExponentialBackOff;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+
 import com.google.api.services.drive.model.*;
+
 import android.accounts.AccountManager;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -31,43 +28,52 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import team11spartadrive.com.helper.*;
+import team11spartadrive.com.helper.DriveFiles;
 
 public class HomePageActivity extends ActionBarActivity implements ActionBar.TabListener {
-    public static Drive.Files drive_files;
-
-    /*
-    Adding google drive oauth credentials
-     */
 
     GoogleAccountCredential mCredential;
     ProgressDialog mProgress;
-
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {DriveScopes.DRIVE_METADATA_READONLY};
-// DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,
+    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY, DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_METADATA };
 
+    public static Drive.Files drive_files;
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     public static com.google.api.services.drive.Drive mService = null;
     // Tab titles
     private String[] tabs = {"My Files", "Shared"};
+    public boolean flag = true;
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    /**
+     * Create the main activity.
+     * @param savedInstanceState previously saved instance data.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home_page);
 
         mProgress = new ProgressDialog(this);
@@ -79,7 +85,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
                 .setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -113,7 +118,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-
     }
 
     @Override
@@ -131,7 +135,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
     }
 
-
     /**
      * Called whenever this activity is pushed to the foreground, such as after
      * a call to onCreate().
@@ -142,8 +145,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         if (isGooglePlayServicesAvailable()) {
             refreshResults();
         } else {
-            Log.d("Error","Google Play Services required: " +
-                    "after installing, close and relaunch this app.");
         }
     }
 
@@ -181,7 +182,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                         editor.apply();
                     }
                 } else if (resultCode == RESULT_CANCELED) {
-                    Log.d("Error", "Account unspecified.");
                 }
                 break;
             case REQUEST_AUTHORIZATION:
@@ -206,7 +206,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
             if (isDeviceOnline()) {
                 new MakeRequestTask(mCredential).execute();
             } else {
-                Log.d("Error", "No network connection available.");
             }
         }
     }
@@ -266,8 +265,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     }
 
 
-
-   /*
+  /*
     Asynchronous Task to get Data from Drive API
      */
 
@@ -312,11 +310,11 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
             drive_files = mService.files();
 
-            DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
-
             FileList result = drive_files.list()
                     .setMaxResults(10)
                     .execute();
+
+            DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
 
             List<File> files = result.getItems();
             if (files != null) {
@@ -355,9 +353,15 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity.REQUEST_AUTHORIZATION);
+                    if(flag) {
+                        startActivityForResult(
+                                ((UserRecoverableAuthIOException) mLastError).getIntent(),
+                                MainActivity.REQUEST_AUTHORIZATION);
+                        flag = false;
+                    }
+                    //Log.d("Messsage-------->", "Mmmmmmmmmmmmain.....");
+                    HomePageActivity.this.refreshResults();
+
                 } else {
                     Log.d("Error: ", "The following error occurred:\n"
                             + mLastError.getMessage());

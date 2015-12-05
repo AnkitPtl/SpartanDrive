@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import team11spartandrive.com.team11spartandrive.HomePageActivity;
+import team11spartandrive.com.team11spartandrive.MainActivity1;
 
 /**
  * Created by student on 11/30/15.
@@ -54,18 +55,28 @@ public class DriveFiles {
 
     }
 
-    public void setDrive_files(Drive.Files drive_files){
-        this.drive_files = drive_files;
-        try {
-            FileList result = drive_files.list().execute();
-            files = result.getItems();
-            for(File file : files){
-                if(file.getDescription() == null){
-                    description = "No Description";
-                }
-                else{
-                    description = file.getDescription();
-                }
+
+    public void refresh_mService() {
+       setDrive_files(MainActivity1.mService.files());
+    }
+
+    public void setDrive_files(final Drive.Files drive_files) {
+
+        new Thread() {
+
+            public void run() {
+                DriveFiles.drive_files = drive_files;
+
+                try {
+                    FileList result = drive_files.list().setMaxResults(10).execute();
+                    files = result.getItems();
+                    for (File file : files) {
+                        if (file.getDescription() == null) {
+                            description = "No Description";
+                        } else {
+                            description = file.getDescription();
+                        }
+
                 String mdate = file.getModifiedDate().toString();
                 String createdDate = file.getCreatedDate().toString();
                 SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
@@ -77,27 +88,31 @@ public class DriveFiles {
                     e.printStackTrace();
                 }
                 String fileDesc = "\n Description: "+description+"\n Modified date:"+ mdate +"\n Created date:"+ createdDate;
-                file_name_list.add(file.getTitle());
-                file_id_list.add(file.getId());
-                file_desc_list.add(fileDesc);
-                file_ext_list.put(file.getTitle(), file.getFileExtension());
-                file_name_id.put(file.getTitle(), file.getId());
+
+                        //String fileDesc = "\n Description: " + description + "\n Modified date:" + file.getModifiedDate().toString() + "\n Created date:" + file.getCreatedDate().toString();
+                        file_name_list.add(file.getTitle());
+                        file_id_list.add(file.getId());
+                        file_desc_list.add(fileDesc);
+                        file_ext_list.put(file.getTitle(), file.getFileExtension());
+                        file_name_id.put(file.getTitle(), file.getId());
+
                 /*
                  create List<String> to store all required details of file and map it with ID as a key.
                  1) file name
                  2) file extension
                  3) Description
                 */
-                List<String> temp_metadata = new ArrayList<String>();
-                temp_metadata.add(file.getTitle());
-                temp_metadata.add(file.getFileExtension());
-                temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ mdate +"\n Created date:"+ createdDate);
-                file_metadata_id.put(file.getId(), temp_metadata);
+                        //List<String> temp_metadata = new ArrayList<String>();
+                        //temp_metadata.add(file.getTitle());
+                        //temp_metadata.add(file.getFileExtension());
+                        //temp_metadata.add("\n Description:"+file.getDescription()+"\n Modified date:"+ mdate +"\n Created date:"+ createdDate);
+                        //.put(file.getId(), temp_metadata);
+                    }
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                }
             }
-        }
-        catch (Exception e){
-            Log.e("Error", e.getMessage());
-        }
+        }.run();
     }
 
     public Drive.Files getDrive_files(){
@@ -112,13 +127,10 @@ public class DriveFiles {
         return file_id_list;
     }
 
-//    public List<String> getFile_ext_list() {
-//        return file_ext_list;
-//    }
-
     public Map<String,String> getFile_ext_list() {
         return file_ext_list;
     }
+
     public List<String> getFile_desc_list() {
         return file_desc_list;
     }
