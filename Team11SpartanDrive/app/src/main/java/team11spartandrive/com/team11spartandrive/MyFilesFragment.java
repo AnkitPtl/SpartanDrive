@@ -1,8 +1,10 @@
 package team11spartandrive.com.team11spartandrive;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -86,6 +91,7 @@ public class MyFilesFragment extends Fragment {
         }
         //Add Menu Options
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override
@@ -190,7 +196,18 @@ public class MyFilesFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                MyFilesFragment.this.ad.getFilter().filter(cs);
+                if (ad != null) {
+                    ad.getFilter().filter(cs);
+                } else {
+                    Log.d("filter", "no filter availible");
+                }
+                //MyFilesFragment.this.ad.getFilter().filter(cs);
+                //MyFilesFragment.this.ad.getFilter().filter(cs);
+//              MyFilesFragment.this.ad.filter(String.valueOf(cs));
+                //String text = myFilter.getText().toString().toLowerCase(Locale.getDefault());
+                //ad.filter(text);
+                // lv.setAdapter(ad);
+                //ad.filter(text);
             }
 
             @Override
@@ -203,6 +220,10 @@ public class MyFilesFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
+
+
+
+                //  lv.setAdapter(ad);
             }
         });
 
@@ -223,6 +244,7 @@ public class MyFilesFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
