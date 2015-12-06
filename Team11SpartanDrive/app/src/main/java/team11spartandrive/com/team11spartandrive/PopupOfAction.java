@@ -2,12 +2,10 @@ package team11spartandrive.com.team11spartandrive;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import team11spartadrive.com.helper.DriveFiles;
@@ -83,7 +81,7 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
 
 
-        if (view.getTag().toString().equalsIgnoreCase("SHARE FILE")) {
+        if (view.getTag().toString().equalsIgnoreCase("SHARE")) {
             // UPDATE DATA
 
             Toast toast = Toast.makeText(context, "update called"+temp_ID, Toast.LENGTH_LONG);
