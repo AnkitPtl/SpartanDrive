@@ -32,4 +32,8 @@ dependencies {
     compile('com.google.apis:google-api-services-drive:v2-rev170-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
+    //Parse dependencies
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.parse:parse-android:1.+'
 }

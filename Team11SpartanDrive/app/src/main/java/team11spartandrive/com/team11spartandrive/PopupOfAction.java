@@ -2,13 +2,15 @@ package team11spartandrive.com.team11spartandrive;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 import team11spartadrive.com.helper.DriveFiles;
 
@@ -83,11 +85,28 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
 
 
-        if (view.getTag().toString().equalsIgnoreCase("SHARE FILE")) {
+        if (view.getTag().toString().equalsIgnoreCase("SHARE")) {
             // UPDATE DATA
 
             Toast toast = Toast.makeText(context, "update called"+temp_ID, Toast.LENGTH_LONG);
             toast.show();
+
+
+            //----------------PARSE-----------------------------
+
+            //Send Push notification
+            ParseQuery pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("username", "smitmehta93@gmail.com");
+            // Send push notification to query
+            ParsePush push = new ParsePush();
+            push.setQuery(pushQuery); // Set our Installation query
+            push.setMessage("Hello from the other side!");
+            push.sendInBackground();
+
+            //----------------PARSE------------------------------
+
+
+
 
         } else if(view.getTag().toString().equalsIgnoreCase("DELETE")){
             final String[] success = {""};

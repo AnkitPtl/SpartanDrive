@@ -7,21 +7,6 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +25,8 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.api.services.drive.DriveScopes;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
 
 /**
@@ -180,8 +167,23 @@ public class  MainActivity extends AppCompatActivity implements
             }
 
 
+            //Parse
+            String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+            Log.d("Email------->",email);
+            ParseUser user = new ParseUser();
+            user.setEmail(email);
+            user.setUsername(email);
+            user.setPassword(email);
+            // Call the Parse signup method
+            user.signUpInBackground();
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("username", email);
+            installation.saveInBackground();
+
+
             Intent intent = new Intent(this, HomePageActivity.class);
             startActivity(intent);
+
 
         } else {
             // Show signed-out message and clear email field
@@ -192,6 +194,8 @@ public class  MainActivity extends AppCompatActivity implements
             findViewById(R.id.sign_in_button).setEnabled(true);
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+
+
         }
     }
 
@@ -378,6 +382,12 @@ public class  MainActivity extends AppCompatActivity implements
             mGoogleApiClient.disconnect();
         }
 
+        //If Parse user was successfully signed up and logged in before
+        if (ParseUser.getCurrentUser() != null){
+            //Logout Parse user
+            ParseUser.getCurrentUser().logOut();
+        }
+
         showSignedOutUI();
     }
     // [END on_sign_out_clicked]
@@ -391,6 +401,7 @@ public class  MainActivity extends AppCompatActivity implements
             Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
             mGoogleApiClient.disconnect();
         }
+
 
         showSignedOutUI();
     }
