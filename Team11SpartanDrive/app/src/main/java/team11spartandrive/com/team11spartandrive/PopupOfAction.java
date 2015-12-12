@@ -2,6 +2,7 @@ package team11spartandrive.com.team11spartandrive;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,13 +31,14 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     Button emailBtn;
     DriveFiles driveFiles;
     private String temp_ID;
+    private String option_type="";
 
 
-    public PopupOfAction(Context context, String temp_ID) {
+    public PopupOfAction(Context context, String temp_ID, String param1) {
         super(context);
 
         this.setTitle("Select Action");
-
+        this.option_type = param1;
         this.driveFiles = driveFiles;
         this.context = context;
         this.temp_ID = temp_ID;
@@ -48,7 +50,7 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
 
 
         shareBtn = new Button(context);
-        deleteBtn = new Button(context);
+
         emailBtn = new Button(context);
 
 
@@ -57,22 +59,24 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
         shareBtn.setText(SHARE);
         shareBtn.setTag(SHARE);
 
-        deleteBtn.setText(DELETE);
-        deleteBtn.setTag(DELETE);
-
+        if(!option_type.equals("SharedFile")) {
+            deleteBtn = new Button(context);
+            deleteBtn.setText(DELETE);
+            deleteBtn.setTag(DELETE);
+            deleteBtn.setOnClickListener(this);
+            linearLayout.addView(deleteBtn);
+        }
         emailBtn.setText(EMAIL);
         emailBtn.setTag(EMAIL);
 
         // SET CLICK LISTENER
 
         shareBtn.setOnClickListener(this);
-        deleteBtn.setOnClickListener(this);
         emailBtn.setOnClickListener(this);
 
         // ADD TEXTVIEW TO LINEARLAYOUT
 
         linearLayout.addView(shareBtn);
-        linearLayout.addView(deleteBtn);
         linearLayout.addView(emailBtn);
 
         // SET CONTENT VIEW
@@ -88,7 +92,7 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
         if (view.getTag().toString().equalsIgnoreCase("SHARE")) {
             // UPDATE DATA
 
-            Toast toast = Toast.makeText(context, "update called"+temp_ID, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, "update called" + temp_ID, Toast.LENGTH_LONG);
             toast.show();
 
 
@@ -106,45 +110,53 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
             //----------------PARSE------------------------------
 
 
+        } else if (view.getTag().toString().equalsIgnoreCase("DELETE")) {
 
+                final String[] success = {""};
+                final String[] error = {""};
+                new Thread() {
+                    public void run() {
+                        try
 
-        } else if(view.getTag().toString().equalsIgnoreCase("DELETE")){
-            final String[] success = {""};
-            final String[] error = {""};
-            new Thread() {
-                public void run() {
-                    try
+                        {
+                            DriveFiles.getDriveFileInstance().drive_files.delete(temp_ID).execute();
+                            Log.d("Sucessssss:", "file " + temp_ID + " deleted");
+                            success[0] = "file " + temp_ID + " deleted";
+                        } catch (
+                                Exception e
+                                )
 
-                    {
-                        DriveFiles.getDriveFileInstance().drive_files.delete(temp_ID).execute();
-                        Log.d("Sucessssss:", "file "+temp_ID+" deleted");
-                        success[0] = "file "+temp_ID+" deleted";
-                    } catch (
-                            Exception e
-                            )
-
-                    {
-                        Log.d("error in deletion", e.getMessage());
-                        error[0] = e.getMessage();
+                        {
+                            Log.d("error in deletion", e.getMessage());
+                            error[0] = e.getMessage();
+                        }
                     }
-                }
-            }.start();
+                }.start();
 
-            Toast toast = Toast.makeText(context,"file "+temp_ID+" deleted", Toast.LENGTH_LONG);
-            toast.show();
+                this.dismiss();
 
-        } else if(view.getTag().toString().equalsIgnoreCase("EMAIL")){
+                Toast toast = Toast.makeText(context, "file " + temp_ID + " deleted", Toast.LENGTH_LONG);
+                toast.show();
 
 
-            Toast toast = Toast.makeText(context, "email called"+temp_ID, Toast.LENGTH_LONG);
-            toast.show();
+        } else if (view.getTag().toString().equalsIgnoreCase("EMAIL")) {
+
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("vnd.android.cursor.dir/email");
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+
+            emailIntent.putExtra(Intent.EXTRA_TEXT, DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID).getAlternateLink());
+
+            context.startActivity(emailIntent);
+            // DISMISS
+            this.dismiss();
         }
-        else{
+
+        else
+        {
             return;
         }
-
-        // DISMISS
-        //this.dismiss();
     }
+
+
 }
-//}

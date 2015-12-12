@@ -37,8 +37,9 @@ public class DriveFiles {
     Map<String,String> file_ext_list = new HashMap<String,String>();
     private Map<String,String> file_name_id = new HashMap<String,String>();
     private List<File> files;
+    private Map<String, File> id_file = new HashMap<String, File>();
     List <String> owners;
-    private String owner_name = HomePageActivity.mCredential.getSelectedAccount().name;
+    private String owner_name = "";
     /*
     <ID, file_metadata>
      */
@@ -46,7 +47,6 @@ public class DriveFiles {
 
 
     private DriveFiles(){
-
     }
 
     public static DriveFiles getDriveFileInstance(){
@@ -70,6 +70,13 @@ public class DriveFiles {
     }
 
     public void setDrive_files(final Drive.Files drive_files) {
+
+        try {
+            owner_name = HomePageActivity.mCredential.getSelectedAccount().name;
+        }
+        catch (Exception e){
+            Log.d("Debug Message","Google drive account is not selected yet");
+        }
 
         new Thread() {
 
@@ -102,6 +109,7 @@ public class DriveFiles {
                         file_id_list.add(file.getId());
                         file_ext_list.put(file.getTitle(), file.getFileExtension());
                         file_name_id.put(file.getTitle(), file.getId());
+                        id_file.put(file.getId(), file);
 
 
                         for(User temp: file.getOwners()){
@@ -114,6 +122,7 @@ public class DriveFiles {
                                 file_desc_list.add(fileDesc);
                             }
                         }
+
                     }
                 } catch (Exception e) {
                     Log.e("Error", e.getMessage());
@@ -161,5 +170,7 @@ public class DriveFiles {
     public List<File> getfiles(){
         return files;
     }
+
+    public Map<String, File> getFileObjectFromID(){ return id_file; }
 
 }
