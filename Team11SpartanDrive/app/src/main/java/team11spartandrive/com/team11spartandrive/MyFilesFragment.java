@@ -105,7 +105,7 @@ public class MyFilesFragment extends Fragment {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.add_item:
-                new AddActionHandler(getContext()).show();
+                new AddActionHandler(getContext(), (HomePageActivity)getActivity()).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
