@@ -1,5 +1,6 @@
 package team11spartandrive.com.team11spartandrive;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,8 +12,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+//import java.io.File;
 
+import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.ParentReference;
+import com.google.common.io.Files;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.util.Arrays;
 
 import team11spartadrive.com.helper.DriveFiles;
 
@@ -23,15 +35,17 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
     final static String newFolder = "Folder";
     final static String newFile = "Upload";
     Context context;
+    private final Activity activity;
     LinearLayout linearLayout;
     Button newFolderBtn;
     Button newFileBtn;
     private String newFolderName = "";
 
-    public AddActionHandler(Context context) {
+    public AddActionHandler(Context context, Activity activity) {
         super(context);
         this.setTitle("New");
         this.context = context;
+        this.activity = activity;
         // Layouts
         linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -52,10 +66,10 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
         this.setContentView(linearLayout);
     }
 
-    private void closeActionHandlerDialog() {
-        this.dismiss();
-    }
 
+    private void closeActionHandlerDialog() {
+       this.dismiss();
+    }
     private void showActionHandlerDialog() {
         this.show();
     }
@@ -66,7 +80,6 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
         switch (selectedAction) {
             case "Folder":
                 closeActionHandlerDialog();
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("New folder");
                 // Set up the input
@@ -116,9 +129,38 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
 
                 break;
             case "Upload":
-                this.dismiss();
+                new FileChooser(this.activity).setFileListener(new FileChooser.FileSelectedListener() {
+                    public void fileSelected(final java.io.File file) {
+                        uploadFileToDrive(file);
+                    }}).showDialog();
                 break;
 
+        }
+    }
+
+    private void uploadFileToDrive(java.io.File file) {
+        try {
+        // File's metadata.
+        final File body = new File();
+        body.setTitle(file.getName());
+        InputStream is = new BufferedInputStream(new FileInputStream(file));
+        body.setMimeType(URLConnection.guessContentTypeFromStream(is));
+        //TODO: Upload to specific folder!
+        // File's content.
+        final FileContent mediaContent = new FileContent(URLConnection.guessContentTypeFromStream(is), file);
+            new Thread() {
+                public void run() {
+                    try {
+                        File uploadedFile = DriveFiles.getDriveFileInstance().getDrive_files().insert(body, mediaContent).execute();
+                        closeActionHandlerDialog();
+                    }
+                    catch(Exception ie){
+                        closeActionHandlerDialog();
+                    }
+                }
+            }.start();
+        } catch (Exception e) {
+            closeActionHandlerDialog();
         }
     }
 }
