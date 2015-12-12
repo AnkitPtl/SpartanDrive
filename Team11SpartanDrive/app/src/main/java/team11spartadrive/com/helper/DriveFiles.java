@@ -32,6 +32,7 @@ public class DriveFiles {
     Map<String,String> file_ext_list = new HashMap<String,String>();
     private Map<String,String> file_name_id = new HashMap<String,String>();
     private List<File> files;
+    List <String> owners;
     /*
     <ID, file_metadata>
      */
@@ -57,7 +58,9 @@ public class DriveFiles {
 
 
     public void refresh_mService() {
+
        setDrive_files(MainActivity1.mService.files());
+
     }
 
     public void setDrive_files(final Drive.Files drive_files) {
@@ -77,11 +80,13 @@ public class DriveFiles {
                             description = file.getDescription();
                         }
 
+
                 String mdate = file.getModifiedDate().toString();
                 String createdDate = file.getCreatedDate().toString();
                 SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy");
-                try {
+                        owners = file.getOwnerNames();
+           try {
                     mdate = myFormat.format(fromUser.parse(mdate.split("T")[0]));
                     createdDate = myFormat.format(fromUser.parse(createdDate.split("T")[0]));
                 } catch (ParseException e) {

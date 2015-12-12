@@ -30,4 +30,10 @@
     <!-- Fragment titles-->
     <string name="SharedFragmentTitle">Hello from Shared Files Fragment</string>
     <string name="MyFilesFragmentTitle">Hello from My Files Fragment</string>
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
 </resources>

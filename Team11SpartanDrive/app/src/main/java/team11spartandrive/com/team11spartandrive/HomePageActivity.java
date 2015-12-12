@@ -12,6 +12,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 
+import com.google.api.services.admin.reports.Reports;
+import com.google.api.services.admin.reports.ReportsScopes;
+import com.google.api.services.admin.reports.model.Activities;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
@@ -46,6 +49,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import team11spartadrive.com.helper.DriveFiles;
+import team11spartadrive.com.helper.UsageDataHandler;
 
 public class HomePageActivity extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -55,13 +59,16 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA_READONLY, DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_METADATA };
+    private static final String[] SCOPES = {ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY, ReportsScopes.ADMIN_REPORTS_USAGE_READONLY, DriveScopes.DRIVE_METADATA_READONLY, DriveScopes.DRIVE_SCRIPTS, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_METADATA };
 
     public static Drive.Files drive_files;
+    public static About about;
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     public static com.google.api.services.drive.Drive mService = null;
+    public Reports reports;
+
     // Tab titles
     private String[] tabs = {"My Files", "Shared"};
     public boolean flag = true;
@@ -92,7 +99,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         actionBar = getSupportActionBar();
         viewPager.setAdapter(mAdapter);
 
-        actionBar.setHomeButtonEnabled(false);
+        actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Adding Tabs
@@ -143,7 +150,11 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
     protected void onResume() {
         super.onResume();
         if (isGooglePlayServicesAvailable()) {
-            refreshResults();
+            try {
+                refreshResults();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
         }
     }
@@ -199,7 +210,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
      * email address isn't known yet, then call chooseAccount() method so the
      * user can pick an account.
      */
-    private void refreshResults() {
+    private void refreshResults() throws IOException {
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else {
@@ -273,13 +284,22 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
         private Exception mLastError = null;
 
-        public MakeRequestTask(GoogleAccountCredential credential) {
+        public MakeRequestTask(GoogleAccountCredential credential) throws IOException {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.drive.Drive.Builder(
                     transport, jsonFactory, credential)
                     .setApplicationName("Team11SpartanDrive")
                     .build();
+
+         /* reports = new com.google.api.services.admin.reports.Reports.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName("Team11SpartanDrive")
+                    .build();
+
+         */
+
+
         }
 
         /**
@@ -310,11 +330,17 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
 
             drive_files = mService.files();
 
+            about= mService.about().get().execute();
+
+            Log.d("Total Disk Space---->", String.valueOf(about.getQuotaBytesTotal()));
+            Log.d("Total Available Space->", String.valueOf(about.getQuotaBytesUsed()));
+
             FileList result = drive_files.list()
                     .setMaxResults(10)
                     .execute();
 
             DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
+            UsageDataHandler.getUsageInstance().setAbout(about);
 
             List<File> files = result.getItems();
             if (files != null) {
@@ -323,6 +349,29 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                             file.getTitle(), file.getId()));
                 }
             }
+
+          /*  String userKey = "all";
+            String applicationName = "login";
+            Activities results = reports.activities()
+                    .list(userKey, applicationName)
+                    .setMaxResults(10)
+                    .execute();
+
+            List<com.google.api.services.admin.reports.model.Activity> activities = results.getItems();
+            List<String> logins = new ArrayList<String>();
+            if (activities != null) {
+               int i=0;
+                for (com.google.api.services.admin.reports.model.Activity activity : activities) {
+                    logins.add(String.format("%s: %s (%s)",
+                            activity.getId().getTime(),
+                            activity.getActor().getEmail(),
+                            activity.getEvents().get(0).getName()));
+                    Log.d("User usage-------->", logins.get(i));
+
+                    i++;
+                }
+            }
+*/
             return fileInfo;
         }
 
@@ -360,7 +409,11 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                         flag = false;
                     }
                     //Log.d("Messsage-------->", "Mmmmmmmmmmmmain.....");
-                    HomePageActivity.this.refreshResults();
+                    try {
+                        HomePageActivity.this.refreshResults();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     Log.d("Error: ", "The following error occurred:\n"
