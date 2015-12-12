@@ -135,56 +135,10 @@ public class MyFilesFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View rootView, int position,
                                            long id) {
-                // TODO Auto-generated method stub
-                //DriveFiles driveFiles = (DriveFiles) rootView.getTag();
 
-                //get ID from file name
-                //Log.d("file name------> ", lv.getItemAtPosition((int) id).toString());
                 String temp_ID = DriveFiles.getDriveFileInstance().getIdFromName(lv.getItemAtPosition((int)id).toString());
-                //Log.d("ID -------> ",temp_ID);
-                new PopupOfAction(getContext(), temp_ID).show();
 
-                //Toast toast = Toast.makeText(getActivity(),String.valueOf(lv.getItemAtPosition((int) id)),Toast.LENGTH_LONG);
-                //toast.show();
-
-//                for(File file : DriveFiles.getDriveFileInstance().getfiles()){
-//                    Log.d("LINK---->", file.getAlternateLink());
-//                   // Log.d("Download", file.getDownloadUrl());
-//                }
-
-
-//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//                emailIntent.setType("vnd.android.cursor.dir/email");
-//
-//                //String to[] = {"asd@gmail.com"};
-//
-//                //emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
-//
-//// the attachment
-//
-//                java.io.File file_t = new java.io.File("file///mnt/sdcard0/Resume_jainam.pdf");
-//                Uri uri = Uri.fromFile(file_t);
-//
-//
-//               emailIntent .putExtra(Intent.EXTRA_STREAM,Uri.parse("file///mnt/sdcard0/DCIM/"));
-//
-//                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-//
-//                startActivity(Intent.createChooser(emailIntent , "Send email..."));
-
-                // emailIntent.setType("text/plain");
-
-                // emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pic));d
-
-                // startActivity(Intent.createChooser(emailIntent,"Share you on the jobing"));
-
-                // startActivity(emailIntent);
-
-                // Return true to consume the click event. In this case the
-
-                // onListItemClick listener is not called anymore.
-
-                //*Log.v("long clicked", "pos: " + pos);
+                new PopupOfAction(getContext(), temp_ID, "MyFiles").show();
 
                 return true;
             }
@@ -201,13 +155,6 @@ public class MyFilesFragment extends Fragment {
                 } else {
                     Log.d("filter", "no filter availible");
                 }
-                //MyFilesFragment.this.ad.getFilter().filter(cs);
-                //MyFilesFragment.this.ad.getFilter().filter(cs);
-//              MyFilesFragment.this.ad.filter(String.valueOf(cs));
-                //String text = myFilter.getText().toString().toLowerCase(Locale.getDefault());
-                //ad.filter(text);
-                // lv.setAdapter(ad);
-                //ad.filter(text);
             }
 
             @Override
@@ -221,9 +168,6 @@ public class MyFilesFragment extends Fragment {
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
 
-
-
-                //  lv.setAdapter(ad);
             }
         });
 
