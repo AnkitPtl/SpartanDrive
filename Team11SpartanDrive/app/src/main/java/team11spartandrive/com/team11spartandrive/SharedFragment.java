@@ -1,44 +1,22 @@
 package team11spartandrive.com.team11spartandrive;
 
-import android.app.FragmentManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import team11spartadrive.com.helper.DeleteFile;
 import team11spartadrive.com.helper.DriveFiles;
-import team11spartadrive.com.helper.SearchFile;
 
 public class SharedFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

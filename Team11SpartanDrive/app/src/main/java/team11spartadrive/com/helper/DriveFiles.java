@@ -38,7 +38,6 @@ public class DriveFiles {
     private Map<String,String> file_name_id = new HashMap<String,String>();
     private List<File> files;
     private Map<String, File> id_file = new HashMap<String, File>();
-    List <String> owners;
     private String owner_name = "";
     /*
     <ID, file_metadata>
@@ -62,12 +61,6 @@ public class DriveFiles {
 
     }
 
-
-    public void refresh_mService() {
-
-       setDrive_files(MainActivity1.mService.files());
-
-    }
 
     public void setDrive_files(final Drive.Files drive_files) {
 
@@ -143,10 +136,6 @@ public class DriveFiles {
         return shared_file_name_list;
     }
 
-    public List<String> getFileIdList(){
-        return file_id_list;
-    }
-
     public Map<String,String> getFile_ext_list() {
         return file_ext_list;
     }
@@ -163,14 +152,10 @@ public class DriveFiles {
         return file_name_id.get(name);
     }
 
-    public Map<String, List<String>> get_file_metadata_from_id(){
-        return file_metadata_id;
-    }
-
-    public List<File> getfiles(){
-        return files;
-    }
-
     public Map<String, File> getFileObjectFromID(){ return id_file; }
+
+    public void removeFileFromList(String Id){
+        shared_file_desc_list.remove(getFileObjectFromID().get(Id).getTitle());
+    }
 
 }

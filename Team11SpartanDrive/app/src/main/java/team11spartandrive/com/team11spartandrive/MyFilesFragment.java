@@ -1,44 +1,26 @@
 package team11spartandrive.com.team11spartandrive;
 
-import android.app.FragmentManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import team11spartadrive.com.helper.DeleteFile;
 import team11spartadrive.com.helper.DriveFiles;
-import team11spartadrive.com.helper.SearchFile;
 
 public class MyFilesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -116,8 +98,50 @@ public class MyFilesFragment extends Fragment {
 
     public void refresh(){
         Log.d("Status", " >>> Going to refresh the fragment files content");
-        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        try {
+            getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+        catch (InstantiationException e){
+            getActivity().getSupportFragmentManager().beginTransaction().detach(this);
+        }
+        catch (Exception e){
+
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        invokeFragmentManagerNoteStateNotSaved();
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private void invokeFragmentManagerNoteStateNotSaved() {
+        /**
+         * For post-Honeycomb devices
+         */
+        if (Build.VERSION.SDK_INT < 11) {
+            return;
+        }
+        try {
+            Class cls = getClass();
+            do {
+                cls = cls.getSuperclass();
+            } while (!"Activity".equals(cls.getSimpleName()));
+            Field fragmentMgrField = cls.getDeclaredField("mFragments");
+            fragmentMgrField.setAccessible(true);
+
+            Object fragmentMgr = fragmentMgrField.get(this);
+            cls = fragmentMgr.getClass();
+
+            Method noteStateNotSavedMethod = cls.getDeclaredMethod("noteStateNotSaved", new Class[] {});
+            noteStateNotSavedMethod.invoke(fragmentMgr, new Object[] {});
+            Log.d("DLOutState", "Successful call for noteStateNotSaved!!!");
+        } catch (Exception ex) {
+            Log.e("DLOutState", "Exception on worka FM.noteStateNotSaved", ex);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +149,6 @@ public class MyFilesFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_myfiles, container, false);
         lv = (ListView) rootView.findViewById(R.id.listView);
         myFilter=(EditText) rootView.findViewById(R.id.myFilter);
-    //    adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,DriveFiles.getDriveFileInstance().getFileNameList());
 
          ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList(),DriveFiles.getDriveFileInstance().getFile_desc_list());
 

@@ -92,12 +92,6 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
         if (view.getTag().toString().equalsIgnoreCase("SHARE")) {
             // UPDATE DATA
 
-            Toast toast = Toast.makeText(context, "update called" + temp_ID, Toast.LENGTH_LONG);
-            toast.show();
-
-
-            //----------------PARSE-----------------------------
-
             //Send Push notification
             ParseQuery pushQuery = ParseInstallation.getQuery();
             pushQuery.whereEqualTo("username", "smitmehta93@gmail.com");
@@ -107,8 +101,8 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
             push.setMessage("Hello from the other side!");
             push.sendInBackground();
 
-            //----------------PARSE------------------------------
-
+            Toast toast = Toast.makeText(context, "share " + temp_ID, Toast.LENGTH_LONG);
+            toast.show();
 
         } else if (view.getTag().toString().equalsIgnoreCase("DELETE")) {
 
@@ -120,12 +114,11 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
 
                         {
                             DriveFiles.getDriveFileInstance().drive_files.delete(temp_ID).execute();
-                            Log.d("Sucessssss:", "file " + temp_ID + " deleted");
+                            Log.d("File deleted", "file " + DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID).getTitle() + " deleted");
                             success[0] = "file " + temp_ID + " deleted";
                         } catch (
                                 Exception e
                                 )
-
                         {
                             Log.d("error in deletion", e.getMessage());
                             error[0] = e.getMessage();
@@ -133,11 +126,17 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
                     }
                 }.start();
 
-                this.dismiss();
+                DriveFiles.getDriveFileInstance().removeFileFromList(temp_ID);
 
-                Toast toast = Toast.makeText(context, "file " + temp_ID + " deleted", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context, "file " + DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID).getTitle() + " deleted", Toast.LENGTH_LONG);
                 toast.show();
 
+//                Intent intent = new Intent(context, HomePageActivity.class);
+//                context.startActivity(intent);
+//            Intent i = context.getPackageManager()
+//                    .getLaunchIntentForPackage(context.getPackageName() );
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            context.startActivity(i);
 
         } else if (view.getTag().toString().equalsIgnoreCase("EMAIL")) {
 
