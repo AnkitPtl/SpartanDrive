@@ -53,7 +53,7 @@ import team11spartadrive.com.helper.UsageDataHandler;
 
 public class HomePageActivity extends ActionBarActivity implements ActionBar.TabListener {
 
-    GoogleAccountCredential mCredential;
+    public static GoogleAccountCredential mCredential;
     ProgressDialog mProgress;
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -291,15 +291,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                     transport, jsonFactory, credential)
                     .setApplicationName("Team11SpartanDrive")
                     .build();
-
-         /* reports = new com.google.api.services.admin.reports.Reports.Builder(
-                    transport, jsonFactory, credential)
-                    .setApplicationName("Team11SpartanDrive")
-                    .build();
-
-         */
-
-
         }
 
         /**
@@ -349,29 +340,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                             file.getTitle(), file.getId()));
                 }
             }
-
-          /*  String userKey = "all";
-            String applicationName = "login";
-            Activities results = reports.activities()
-                    .list(userKey, applicationName)
-                    .setMaxResults(10)
-                    .execute();
-
-            List<com.google.api.services.admin.reports.model.Activity> activities = results.getItems();
-            List<String> logins = new ArrayList<String>();
-            if (activities != null) {
-               int i=0;
-                for (com.google.api.services.admin.reports.model.Activity activity : activities) {
-                    logins.add(String.format("%s: %s (%s)",
-                            activity.getId().getTime(),
-                            activity.getActor().getEmail(),
-                            activity.getEvents().get(0).getName()));
-                    Log.d("User usage-------->", logins.get(i));
-
-                    i++;
-                }
-            }
-*/
             return fileInfo;
         }
 
@@ -408,7 +376,6 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                                 MainActivity.REQUEST_AUTHORIZATION);
                         flag = false;
                     }
-                    //Log.d("Messsage-------->", "Mmmmmmmmmmmmain.....");
                     try {
                         HomePageActivity.this.refreshResults();
                     } catch (IOException e) {

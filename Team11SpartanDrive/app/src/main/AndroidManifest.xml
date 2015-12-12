@@ -47,8 +47,6 @@
             android:value="@integer/google_play_services_version" />
 
 
-
-
         <!--Parse service and receiver-->
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParsePushBroadcastReceiver"
