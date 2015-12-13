@@ -108,6 +108,10 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                                             .getLaunchIntentForPackage(context.getPackageName());
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     context.startActivity(i);
+
+//                                    Intent intent = new Intent(context, LandingActivity.class);
+//                                    context.startActivity(intent);
+
                                 }
                             }.start();
                             dialog.dismiss();

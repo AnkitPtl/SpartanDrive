@@ -1,10 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="team11spartandrive.com.team11spartandrive">
 
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-
-
-
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,46 +11,46 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:protectionLevel="signature"
-        android:name="team11spartandrive.com.team11spartandrive.permission.C2D_MESSAGE" />
+    <permission
+        android:name="team11spartandrive.com.team11spartandrive.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="team11spartandrive.com.team11spartandrive.permission.C2D_MESSAGE" />
 
-
-
-
     <application
+        android:name=".SampleApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/spartandrive"
         android:configChanges="keyboardHidden|orientation|screenSize"
+        android:icon="@mipmap/spartandrive"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".SampleApplication">
-        <!--Parse SampleApplication -->
+        android:theme="@style/AppTheme">
+
+        <!-- Parse SampleApplication -->
 
         <activity
             android:name=".MainActivity"
-            android:label="Spartan Drive" >
+            android:label="Spartan Drive">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".HomePageActivity" >
-        </activity>
-        <activity android:name=".UsageActivity"
-            android:label="Usage Report">
-        </activity>
+        <activity android:name=".HomePageActivity" />
+        <activity
+            android:name=".UsageActivity"
+            android:label="Usage Report" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-        <!--Parse service and receiver-->
+        <!-- Parse service and receiver -->
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -60,19 +58,19 @@
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="team11spartandrive.com.team11spartandrive" />
             </intent-filter>
         </receiver>
-        <!--Parse service and receiver-->
+        <!-- Parse service and receiver -->
 
-
-
-
+        <activity android:name=".LandingActivity"></activity>
     </application>
 
 </manifest>

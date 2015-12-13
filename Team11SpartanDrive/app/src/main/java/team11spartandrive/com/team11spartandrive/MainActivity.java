@@ -181,7 +181,7 @@ public class  MainActivity extends AppCompatActivity implements
             installation.saveInBackground();
 
 
-            Intent intent = new Intent(this, HomePageActivity.class);
+            Intent intent = new Intent(this, LandingActivity.class);
             startActivity(intent);
 
 

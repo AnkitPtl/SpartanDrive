@@ -1,5 +1,6 @@
 package team11spartandrive.com.team11spartandrive;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -131,12 +132,20 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
                 Toast toast = Toast.makeText(context, "file " + DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID).getTitle() + " deleted", Toast.LENGTH_LONG);
                 toast.show();
 
+//            Intent intent = new Intent(context, LandingActivity.class);
+//            context.startActivity(intent);
+
+            Intent i = context.getPackageManager()
+                    .getLaunchIntentForPackage(context.getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(i);
+
+//            Activity activity = (Activity)context;
+//            activity.finish();
+
 //                Intent intent = new Intent(context, HomePageActivity.class);
 //                context.startActivity(intent);
-//            Intent i = context.getPackageManager()
-//                    .getLaunchIntentForPackage(context.getPackageName() );
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            context.startActivity(i);
+
 
         } else if (view.getTag().toString().equalsIgnoreCase("EMAIL")) {
 

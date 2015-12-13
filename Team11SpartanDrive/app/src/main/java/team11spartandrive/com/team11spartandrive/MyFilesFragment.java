@@ -116,46 +116,11 @@ public class MyFilesFragment extends Fragment {
         try {
             getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
-        catch (InstantiationException e){
-            getActivity().getSupportFragmentManager().beginTransaction().detach(this);
-        }
         catch (Exception e){
-
+            Log.d("Eroorrr","came in error.......");
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        invokeFragmentManagerNoteStateNotSaved();
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void invokeFragmentManagerNoteStateNotSaved() {
-        /**
-         * For post-Honeycomb devices
-         */
-        if (Build.VERSION.SDK_INT < 11) {
-            return;
-        }
-        try {
-            Class cls = getClass();
-            do {
-                cls = cls.getSuperclass();
-            } while (!"Activity".equals(cls.getSimpleName()));
-            Field fragmentMgrField = cls.getDeclaredField("mFragments");
-            fragmentMgrField.setAccessible(true);
-
-            Object fragmentMgr = fragmentMgrField.get(this);
-            cls = fragmentMgr.getClass();
-
-            Method noteStateNotSavedMethod = cls.getDeclaredMethod("noteStateNotSaved", new Class[] {});
-            noteStateNotSavedMethod.invoke(fragmentMgr, new Object[] {});
-            Log.d("DLOutState", "Successful call for noteStateNotSaved!!!");
-        } catch (Exception ex) {
-            Log.e("DLOutState", "Exception on worka FM.noteStateNotSaved", ex);
-        }
-    }
 
 
     @Override
@@ -181,6 +146,8 @@ public class MyFilesFragment extends Fragment {
                 return true;
             }
         });
+
+
 
 
         myFilter.addTextChangedListener(new TextWatcher() {

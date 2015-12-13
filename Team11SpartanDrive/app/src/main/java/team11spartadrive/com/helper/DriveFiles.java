@@ -27,23 +27,24 @@ import team11spartandrive.com.team11spartandrive.MainActivity1;
 public class DriveFiles {
 
     private String description = "";
+
     public static Drive.Files drive_files = null;
     static DriveFiles driveFilesInstance = null;
-    private List<String> file_name_list = new ArrayList<String>();
+
     private List<String> shared_file_name_list = new ArrayList<String>();
+    private List<String> shared_file_desc_list = new ArrayList<String>();
+
+    private List<String> file_name_list = new ArrayList<String>();
+    private List<String> file_desc_list = new ArrayList<String>();
+
+    private List<File> files;
     private List<String> file_id_list = new ArrayList<String>();
-    private List<String> file_desc_list=  new ArrayList<String>();
-    private List<String> shared_file_desc_list=  new ArrayList<String>();
+
     Map<String,String> file_ext_list = new HashMap<String,String>();
     private Map<String,String> file_name_id = new HashMap<String,String>();
-    private List<File> files;
     private Map<String, File> id_file = new HashMap<String, File>();
-    private String owner_name = "";
-    /*
-    <ID, file_metadata>
-     */
-    private Map<String, List<String>> file_metadata_id = new HashMap<String, List<String>>();
 
+    private String owner_name = "";
 
     private DriveFiles(){
     }
@@ -64,6 +65,14 @@ public class DriveFiles {
 
     public void setDrive_files(final Drive.Files drive_files) {
 
+        file_name_list = new ArrayList<String>();
+        file_desc_list=  new ArrayList<String>();
+
+        file_id_list = new ArrayList<String>();
+        file_ext_list = new HashMap<String,String>();
+        file_name_id = new HashMap<String,String>();
+        id_file = new HashMap<String, File>();
+
         try {
             owner_name = HomePageActivity.mCredential.getSelectedAccount().name;
         }
@@ -77,17 +86,17 @@ public class DriveFiles {
                 DriveFiles.drive_files = drive_files;
 
                 try {
-                        FileList result = drive_files.list()
-                                //.setMaxResults(15)
-                                .execute();
+                    FileList result = drive_files.list()
+                            .setMaxResults(15)
+                            .execute();
 
-                        files = result.getItems();
-                        for (File file : files) {
-                            if (file.getDescription() == null) {
-                                description = "No Description";
-                            } else {
-                                description = file.getDescription();
-                            }
+                    files = result.getItems();
+                    for (File file : files) {
+                        if (file.getDescription() == null) {
+                            description = "No Description";
+                        } else {
+                            description = file.getDescription();
+                        }
 
                         String mdate = file.getModifiedDate().toString();
                         String createdDate = file.getCreatedDate().toString();
@@ -106,7 +115,7 @@ public class DriveFiles {
 
 
                         for(User temp: file.getOwners()){
-                                if(! temp.getEmailAddress().equals(owner_name)){
+                            if(! temp.getEmailAddress().equals(owner_name)){
                                 shared_file_name_list.add(file.getTitle());
                                 shared_file_desc_list.add(fileDesc);
                             }
