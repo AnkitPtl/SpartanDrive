@@ -30,7 +30,7 @@ public class DriveFiles {
 
     public static Drive.Files drive_files = null;
     static DriveFiles driveFilesInstance = null;
-
+    public static Drive.Permissions drive_permissions = null;
     private List<String> shared_file_name_list = new ArrayList<String>();
     private List<String> shared_file_desc_list = new ArrayList<String>();
 
@@ -166,5 +166,14 @@ public class DriveFiles {
     public void removeFileFromList(String Id){
         shared_file_desc_list.remove(getFileObjectFromID().get(Id).getTitle());
     }
+
+    public Drive.Permissions getDrive_Permissions() {
+        return drive_permissions;
+    }
+
+    public void setDrivePermissions(Drive.Permissions permissions){
+        drive_permissions = permissions;
+    }
+
 
 }

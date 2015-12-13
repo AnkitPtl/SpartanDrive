@@ -333,9 +333,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
         private List<String> getDataFromApi() throws IOException {
             // Get a list of up to 10 files.
             List<String> fileInfo = new ArrayList<String>();
-
             drive_files = mService.files();
-
             about= mService.about().get().execute();
 
             Log.d("Total Disk Space---->", String.valueOf(about.getQuotaBytesTotal()));
@@ -346,6 +344,7 @@ public class HomePageActivity extends ActionBarActivity implements ActionBar.Tab
                     .execute();
 
             DriveFiles.getDriveFileInstance().setDrive_files(drive_files);
+            DriveFiles.getDriveFileInstance().setDrivePermissions(mService.permissions());
             UsageDataHandler.getUsageInstance().setAbout(about);
 
             List<File> files = result.getItems();
