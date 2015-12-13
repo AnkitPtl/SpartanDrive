@@ -1,15 +1,21 @@
 package team11spartandrive.com.team11spartandrive;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.Plus;
+import com.google.api.services.drive.model.File;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
@@ -34,6 +40,7 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
     DriveFiles driveFiles;
     private String temp_ID;
     private String option_type="";
+    private String email="";
 
 
     public PopupOfAction(Context context, String temp_ID, String param1) {
@@ -86,6 +93,12 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
 
     }
 
+    private void closeActionHandlerDialog() {
+        this.dismiss();
+    }
+    private void showActionHandlerDialog() {
+        this.show();
+    }
 
     @Override
     public void onClick(View view) {
@@ -94,17 +107,63 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
         if (view.getTag().toString().equalsIgnoreCase("SHARE")) {
             // UPDATE DATA
 
-            //Send Push notification
-            ParseQuery pushQuery = ParseInstallation.getQuery();
-            pushQuery.whereEqualTo("username", "smitmehta93@gmail.com");
-            // Send push notification to query
-            ParsePush push = new ParsePush();
-            push.setQuery(pushQuery); // Set our Installation query
-            push.setMessage("Hello from the other side!");
-            push.sendInBackground();
+            closeActionHandlerDialog();
 
-            Toast toast = Toast.makeText(context, "share " + temp_ID, Toast.LENGTH_LONG);
-            toast.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Enter Email");
+            // Set up the input
+            final EditText input = new EditText(context);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+            // Set up the buttons
+            builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    email = input.getText().toString();
+                    if (!email.isEmpty()) {
+                        new Thread() {
+                            public void run() {
+
+                                //Send Push notification
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("username",email);
+                                // Send push notification to query
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery); // Set our Installation query
+                                push.setMessage("One or more file is shared to you! by");
+                                push.sendInBackground();
+
+                                //update page
+                              // new RefreshAction().updateAction(context);
+
+                            }
+                        }.start();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(context, "Email can not be sent", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    showActionHandlerDialog();
+                }
+            });
+            builder.show();
+
+
+
+
+
+
+
+
+            ////---------------------------
+
+
 
         } else if (view.getTag().toString().equalsIgnoreCase("DELETE")) {
 

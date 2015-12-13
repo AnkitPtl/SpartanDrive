@@ -13,7 +13,7 @@ public class SampleApplication extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        Parse.initialize(this, "cuWaQgvizqJbbw3mGbH32yCaBoaDa1mMDFapYmTI", "r0qkNJbs79ayuWDqVUYnfMjI3vFQfDdJ89jzpgQd");
+        Parse.initialize(this, "fCQwyicUY80G8br3pDeKfktKRGR8KdIqyOwS274D", "nLJx2nS5S22jOPtj1eXyyeIsmYZwc4rUVOaiJha3");
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }
