@@ -97,13 +97,11 @@ public class MyFilesFragment extends Fragment {
 
                 myIntent.putExtra("name", UsageDataHandler.getUserName());
                 myIntent.putExtra("mail",UsageDataHandler.getUserEmail());
-                myIntent.putExtra("totalUsedSpace",String.valueOf(UsageDataHandler.getUsageInstance().getTotalSpaceUsed()));
-                myIntent.putExtra("totalFreeSpace",String.valueOf(UsageDataHandler.getUsageInstance().getTotalFreeSpace()));
+                myIntent.putExtra("totalUsedSpace",UsageDataHandler.getUsageInstance().getTotalSpaceUsed());
+                myIntent.putExtra("totalFreeSpace", UsageDataHandler.getUsageInstance().getTotalFreeSpace());
                 myIntent.putExtra("imageUrl",String.valueOf(UsageDataHandler.getUrl()));
                 startActivity(myIntent);
-
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -117,7 +115,7 @@ public class MyFilesFragment extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
         catch (Exception e){
-            Log.d("Eroorrr","came in error.......");
+            Log.d("Eroorrr", "came in error.......");
         }
     }
 
