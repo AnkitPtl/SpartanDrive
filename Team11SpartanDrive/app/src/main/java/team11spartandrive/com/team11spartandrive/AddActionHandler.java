@@ -27,6 +27,7 @@ import java.net.URLConnection;
 import java.util.Arrays;
 
 import team11spartadrive.com.helper.DriveFiles;
+import team11spartadrive.com.helper.RefreshAction;
 
 /**
  * Created by Ankit on 12/2/2015.
@@ -104,13 +105,8 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                                         System.out.println("Error while creating new folder");
                                     }
 
-                                    Intent i = context.getPackageManager()
-                                            .getLaunchIntentForPackage(context.getPackageName());
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    context.startActivity(i);
-
-//                                    Intent intent = new Intent(context, LandingActivity.class);
-//                                    context.startActivity(intent);
+                                    //update page
+                                    new RefreshAction().updateAction(context);
 
                                 }
                             }.start();
@@ -157,6 +153,7 @@ public class AddActionHandler extends Dialog implements View.OnClickListener {
                     try {
                         File uploadedFile = DriveFiles.getDriveFileInstance().getDrive_files().insert(body, mediaContent).execute();
                         closeActionHandlerDialog();
+                        new RefreshAction().updateAction(context);
                     }
                     catch(Exception ie){
                         closeActionHandlerDialog();

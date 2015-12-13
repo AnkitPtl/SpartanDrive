@@ -15,6 +15,7 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import team11spartadrive.com.helper.DriveFiles;
+import team11spartadrive.com.helper.RefreshAction;
 
 /**
  * Created by Jainam on 12/1/2015.
@@ -132,19 +133,8 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
                 Toast toast = Toast.makeText(context, "file " + DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID).getTitle() + " deleted", Toast.LENGTH_LONG);
                 toast.show();
 
-//            Intent intent = new Intent(context, LandingActivity.class);
-//            context.startActivity(intent);
-
-            Intent i = context.getPackageManager()
-                    .getLaunchIntentForPackage(context.getPackageName());
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(i);
-
-//            Activity activity = (Activity)context;
-//            activity.finish();
-
-//                Intent intent = new Intent(context, HomePageActivity.class);
-//                context.startActivity(intent);
+                //update page
+                new RefreshAction().updateAction(context);
 
 
         } else if (view.getTag().toString().equalsIgnoreCase("EMAIL")) {

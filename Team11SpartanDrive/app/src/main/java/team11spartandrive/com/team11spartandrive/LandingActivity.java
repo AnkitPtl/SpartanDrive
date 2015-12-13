@@ -11,9 +11,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        //this.finish();
-
-        Intent intent = new Intent(this, HomePageActivity.class);
-        startActivity(intent);
+        Intent intent_next = new Intent(this, HomePageActivity.class);
+        startActivity(intent_next);
     }
 }

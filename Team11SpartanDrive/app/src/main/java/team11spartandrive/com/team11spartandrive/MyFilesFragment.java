@@ -2,7 +2,6 @@ package team11spartandrive.com.team11spartandrive;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -18,15 +17,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import team11spartadrive.com.helper.DriveFiles;
 import team11spartadrive.com.helper.UsageDataHandler;
 
 public class MyFilesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -117,7 +112,10 @@ public class MyFilesFragment extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
         catch (Exception e){
-            Log.d("Eroorrr","came in error.......");
+            Intent intent = getActivity().getIntent();
+            getActivity().finish();
+            startActivity(intent);
+            Log.d("Debug","Refreshing fragment after action");
         }
     }
 
