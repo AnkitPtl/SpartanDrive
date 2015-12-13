@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by harsh on 12/11/2015.
  */
@@ -21,8 +23,9 @@ public class UsageDataHandler {
     public static String userEmail;
     public static User.Picture profilePic;
     public static  String url;
-    Long totalSpace;
-    Long totalSpaceUsed;
+    double totalSpace;
+    double totalSpaceUsed;
+    double totalFreeSpace;
 
     public static String getUrl() {
         return url;
@@ -31,8 +34,6 @@ public class UsageDataHandler {
     public static void setUrl(String url) {
         UsageDataHandler.url = url;
     }
-
-    Long totalFreeSpace;
 
     public static String getUserName() {
         return userName;
@@ -58,27 +59,27 @@ public class UsageDataHandler {
         UsageDataHandler.profilePic = profilePic;
     }
 
-    public Long getTotalSpaceUsed() {
+    public double getTotalSpaceUsed() {
         return totalSpaceUsed;
     }
 
-    public void setTotalSpaceUsed(Long totalSpaceUsed) {
+    public void setTotalSpaceUsed(double totalSpaceUsed) {
         this.totalSpaceUsed = totalSpaceUsed;
     }
 
-    public Long getTotalFreeSpace() {
+    public Double getTotalFreeSpace() {
         return totalFreeSpace;
     }
 
-    public void setTotalFreeSpace(Long totalFreeSpace) {
+    public void setTotalFreeSpace(double totalFreeSpace) {
         this.totalFreeSpace = totalFreeSpace;
     }
 
-    public Long getTotalSpace() {
+    public double getTotalSpace() {
         return totalSpace;
     }
 
-    public void setTotalSpace(Long totalSpace) {
+    public void setTotalSpace(double totalSpace) {
         this.totalSpace = totalSpace;
     }
 
@@ -103,8 +104,8 @@ public class UsageDataHandler {
 
                 try {
                     UsageDataHandler.about = about;
-                    totalSpace = (about.getQuotaBytesTotal() / 1000000000);
-                    totalSpaceUsed = (about.getQuotaBytesUsed() / 1000000000);
+                    totalSpace = ((double)about.getQuotaBytesTotal() / 1073741824);
+                    totalSpaceUsed = ((double)about.getQuotaBytesUsedAggregate() / 1073741824);
                     totalFreeSpace = totalSpace - totalSpaceUsed;
                     userName = about.getUser().getDisplayName();
                     userEmail = about.getUser().getEmailAddress();
@@ -116,8 +117,6 @@ public class UsageDataHandler {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     Log.d("UsageDate",url);
                 }
                 catch(Exception e){

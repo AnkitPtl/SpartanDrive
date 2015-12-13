@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 public class UsageActivity extends AppCompatActivity {
 
@@ -29,26 +30,29 @@ public class UsageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usage);
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
         String username= bundle.getString("name");
         String useremail= bundle.getString("mail");
-        String totalUsedSpace= bundle.getString("totalUsedSpace");
-        String totalFreeSpace= bundle.getString("totalFreeSpace");
+        String totalUsedSpace = String.valueOf(bundle.getDouble("totalUsedSpace"));
+        String totalFreeSpace = String.valueOf(bundle.getDouble("totalFreeSpace"));
+        try {
+            totalUsedSpace = String.format("%.2f", bundle.getDouble("totalUsedSpace"));
+            totalFreeSpace = String.format("%.2f", bundle.getDouble("totalFreeSpace"));
+        }
+        catch(Exception e){
+            System.out.println("Error in String format");
+        }
         String url = bundle.getString("imageUrl");
-
         uname= (TextView) findViewById(R.id.uname);
         mail= (TextView) findViewById(R.id.umail);
         totalUsedSpacev= (TextView) findViewById(R.id.totalUsedSpace);
         totalFreeSpacev= (TextView) findViewById(R.id.totalFreeSpace);
         imageview = (ImageView)  findViewById(R.id.imgV);
-
         uname.setText("Name: "+username);
         mail.setText("Email: "+useremail);
-        totalUsedSpacev.setText("Total Used Space: "+totalUsedSpace +"GB");
-        totalFreeSpacev.setText("Total Free Space: "+totalFreeSpace+"GB");
+        totalUsedSpacev.setText("Total Used Space: "+totalUsedSpace +" GB");
+        totalFreeSpacev.setText("Total Free Space: "+totalFreeSpace+" GB");
         new MyAsyncTask().execute(url);
 
     }

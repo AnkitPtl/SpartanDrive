@@ -5,7 +5,7 @@
     <item
         android:id="@+id/userInformation"
         android:icon="@android:drawable/ic_dialog_info"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         app:showAsAction="always"
         android:title="@string/add_item"
         tools:ignore="AppCompatResource">
@@ -14,7 +14,7 @@
     <item
         android:id="@+id/add_item"
         android:icon="@android:drawable/ic_input_add"
-        android:orderInCategory="20"
+        android:orderInCategory="1"
         app:showAsAction="always"
         android:title="@string/add_item"
         tools:ignore="AppCompatResource">
