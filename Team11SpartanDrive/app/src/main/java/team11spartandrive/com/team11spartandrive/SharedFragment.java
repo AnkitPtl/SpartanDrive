@@ -1,5 +1,6 @@
 package team11spartandrive.com.team11spartandrive;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import team11spartadrive.com.helper.DriveFiles;
+import team11spartadrive.com.helper.UsageDataHandler;
 
 public class SharedFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -83,8 +85,21 @@ public class SharedFragment extends Fragment {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.add_item:
-                new AddActionHandler(getContext()).show();
+                new AddActionHandler(getContext(), (HomePageActivity)getActivity()).show();
                 return true;
+            case R.id.userInformation:
+
+                Intent myIntent = new Intent(getActivity(),UsageActivity.class);
+
+                myIntent.putExtra("name", UsageDataHandler.getUserName());
+                myIntent.putExtra("mail",UsageDataHandler.getUserEmail());
+                myIntent.putExtra("totalUsedSpace",String.valueOf(UsageDataHandler.getUsageInstance().getTotalSpaceUsed()));
+                myIntent.putExtra("totalFreeSpace",String.valueOf(UsageDataHandler.getUsageInstance().getTotalFreeSpace()));
+                myIntent.putExtra("imageUrl",String.valueOf(UsageDataHandler.getUrl()));
+                startActivity(myIntent);
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

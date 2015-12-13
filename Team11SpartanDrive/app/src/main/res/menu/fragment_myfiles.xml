@@ -3,6 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/userInformation"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/add_item"
+        tools:ignore="AppCompatResource">
+    </item>
+
+    <item
         android:id="@+id/add_item"
         android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="20"

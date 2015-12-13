@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 public class FileChooser {
+
     private static final String PARENT_DIR = "..";
     private final Activity activity;
     private ListView list;

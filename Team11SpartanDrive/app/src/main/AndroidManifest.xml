@@ -41,6 +41,9 @@
 
         <activity android:name=".HomePageActivity" >
         </activity>
+        <activity android:name=".UsageActivity"
+            android:label="Usage Report">
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
