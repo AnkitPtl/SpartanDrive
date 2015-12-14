@@ -61,19 +61,23 @@ public class CustomListAdapter extends ArrayAdapter<String> implements Filterabl
         try {
             if (file_ext_list.get(searchFile.get(position).toString()).equals("pdf")) {
                 imgid = R.mipmap.pdf;
-            } else if (file_ext_list.get(searchFile.get(position).toString()).equals("doc") || file_ext_list.get(searchFile.get(position).toString()).equals("docx")) {
+            } else if (file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("doc") || file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("docx")) {
                 imgid = R.mipmap.word;
-            } else if (file_ext_list.get(searchFile.get(position).toString()).equals("xls")) {
+            } else if (file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("xls") || file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("xlsx")) {
                 imgid = R.mipmap.xls;
-            } else if (file_ext_list.get(searchFile.get(position).toString()).equals("ppt")) {
+            } else if (file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("ppt") || file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("pptx")) {
                 imgid = R.mipmap.ppt;
-            } else {
+            } else if (file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("jpg") || file_ext_list.get(searchFile.get(position).toString()).equalsIgnoreCase("jpeg")) {
+                imgid = R.mipmap.jpg;
+            }
+            else {
                 imgid = R.mipmap.folder;
             }
         }
         catch (Exception e){
             imgid = R.mipmap.folder;
         }
+
         imageView.setImageResource(imgid);
         return rowView;
 

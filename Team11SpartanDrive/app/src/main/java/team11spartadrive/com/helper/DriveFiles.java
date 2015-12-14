@@ -79,7 +79,7 @@ public class DriveFiles {
 
                 try {
                     FileList result = drive_files.list()
-                            .setMaxResults(15)
+                            //.setMaxResults(15)
                             .execute();
 
                     files = result.getItems();

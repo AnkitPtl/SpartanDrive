@@ -4,7 +4,9 @@
     android:orientation="vertical" >
 
     <EditText android:id="@+id/myFilter" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:ems="10">
+        android:layout_height="wrap_content" android:ems="10"
+        android:hint="--search--"
+        >
         <!--android:hint="@string/some_hint">-->
         <requestFocus />
     </EditText>
