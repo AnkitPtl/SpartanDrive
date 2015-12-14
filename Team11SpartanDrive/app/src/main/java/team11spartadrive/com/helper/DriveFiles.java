@@ -1,17 +1,11 @@
 package team11spartadrive.com.helper;
 
 import android.util.Log;
-
-import com.google.api.client.util.DateTime;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.User;
 
-import org.w3c.dom.UserDataHandler;
-
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import team11spartandrive.com.team11spartandrive.HomePageActivity;
-import team11spartandrive.com.team11spartandrive.MainActivity1;
 
 /**
  * Created by student on 11/30/15.
@@ -61,7 +54,6 @@ public class DriveFiles {
         }
 
     }
-
 
     public void setDrive_files(final Drive.Files drive_files) {
 

@@ -38,7 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomePageActivity" />
+        <activity android:name=".HomePageActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".UsageActivity"
             android:label="Usage Report" />
@@ -71,7 +72,6 @@
         </receiver>
         <!-- Parse service and receiver -->
 
-        <activity android:name=".LandingActivity"></activity>
     </application>
 
 </manifest>

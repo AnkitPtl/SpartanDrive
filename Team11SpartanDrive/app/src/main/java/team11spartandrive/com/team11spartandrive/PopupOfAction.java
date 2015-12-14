@@ -173,17 +173,6 @@ public class PopupOfAction extends Dialog implements View.OnClickListener {
             });
             builder.show();
 
-
-
-
-
-
-
-
-            ////---------------------------
-
-
-
         } else if (view.getTag().toString().equalsIgnoreCase("DELETE")) {
 
                 final String[] success = {""};

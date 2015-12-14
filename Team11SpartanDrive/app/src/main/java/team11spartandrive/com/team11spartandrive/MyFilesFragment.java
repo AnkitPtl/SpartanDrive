@@ -45,7 +45,6 @@ public class MyFilesFragment extends Fragment {
 
     static MyFilesFragment myFilesFragment_instance = null;
     ListView lv;
- //   ArrayAdapter<String> adapter;
     CustomListAdapter ad;
     android.support.v4.app.FragmentTransaction ft ;
 
