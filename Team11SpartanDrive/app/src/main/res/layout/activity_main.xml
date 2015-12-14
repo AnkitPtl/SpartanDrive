@@ -3,7 +3,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey_700"
+    android:background="@color/common_signin_btn_dark_text_focused"
     android:orientation="vertical"
     android:weightSum="4"
     tools:context=".MainActivity">
@@ -33,7 +33,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/title_text"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="#4175a0"
             android:textSize="36sp"
             android:autoText="false" />
 
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signed_out"
-            android:textColor="@android:color/white"
+            android:textColor="#eeac3f"
             android:textSize="14sp" />
 
         <TextView

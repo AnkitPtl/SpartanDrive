@@ -1,6 +1,7 @@
 package team11spartandrive.com.team11spartandrive;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 
 import team11spartadrive.com.helper.DriveFiles;
 import team11spartadrive.com.helper.UsageDataHandler;
@@ -128,6 +132,31 @@ public class MyFilesFragment extends Fragment {
          ad = new CustomListAdapter(getActivity(),DriveFiles.getDriveFileInstance().getFileNameList(),DriveFiles.getDriveFileInstance().getFile_desc_list());
 
         lv.setAdapter(ad);
+
+//        lv.setOnClickListener(new AdapterView.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                //String temp_ID = DriveFiles.getDriveFileInstance().getIdFromName(lv.getItemAtPosition((int)id).toString());
+//            }
+//
+//        });
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView myAdapter, View myView, int pos, long mylng) {
+                String selectedFromList =(lv.getItemAtPosition(pos).toString());
+                String temp_ID = DriveFiles.getDriveFileInstance().getIdFromName(selectedFromList);
+                File file = DriveFiles.getDriveFileInstance().getFileObjectFromID().get(temp_ID);
+
+
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+//              intent.setDataAndType(,"");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+        });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
