@@ -30,12 +30,13 @@
                 android:layout_height="wrap_content"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="2dp"
-                android:textColor="#6699ff"
-                android:textSize="15dp"
-                android:maxLength="500"/>
+                android:textColor="#989a9d"
+                android:textSize="13dp"
+                android:maxLength="500"
+                android:textStyle="normal" />
 
         </LinearLayout>
     </LinearLayout>

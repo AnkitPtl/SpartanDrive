@@ -14,14 +14,15 @@
             <ImageView android:id="@+id/imgV"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                />
+                android:layout_marginTop="5dp" />
         </TableRow>
 
         <TableRow>
             <TextView android:id="@+id/uname"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginLeft="15dp" />
 
         </TableRow>
 
@@ -29,7 +30,8 @@
             <TextView android:id="@+id/umail"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginLeft="15dp" />
 
         </TableRow>
 
@@ -37,7 +39,8 @@
             <TextView android:id="@+id/totalUsedSpace"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginLeft="15dp" />
 
         </TableRow>
 
@@ -46,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
 
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginLeft="15dp" />
 
         </TableRow>
 
